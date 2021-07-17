@@ -45,11 +45,11 @@ public final class Constants {
     public static final int TEST_UPPER = 10000;
     public static final int TEST_LOWER = 0;
 
-    public static final int BEHIND_LINE_UPPER = -500; 
-    public static final int BEHIND_LINE_LOWER = 10000; 
+    public static final int SHOOTER_TRIANGLE_UPPER = -1000;
+    public static final int SHOOTER_TRIANGLE_LOWER = 12000;
 
-//    public static final int BEHIND_LINE_UPPER = -1300; 
-   // public static final int BEHIND_LINE_LOWER = 11700; 
+    public static final NTValue SHOOTER_BEHIND_LINE_UPPER = new NTValue(5000, "/SmartDashboard/Subsystems/Shooter/BehindLine/Upper");
+    public static final NTValue SHOOTER_BEHING_LINE_LOWER = new NTValue(12000, "/SmartDashboard/Subsystems/Shooter/BehindLine/Lower");
     
     public static final int FRONT_OF_TRENCH_UPPER = 300; 
     public static final int FRONT_OF_TRENCH_LOWER = 10400; 

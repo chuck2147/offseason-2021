@@ -47,8 +47,8 @@ public class RobotContainer {
   private final XboxController operatorController = new XboxController(1);
   
   //shooter buttons
-  private final JoystickButton shooterCloseButton = new JoystickButton(operatorController, 3);
-  private final JoystickButton shooterMediumButton = new JoystickButton(operatorController, 1);
+  private final JoystickButton shooterTriangleButton = new JoystickButton(operatorController, 3); // X button
+  private final JoystickButton shooterBehindLineButton = new JoystickButton(operatorController, 1); // A button
   private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2);
   private final JoystickButton newButton = new JoystickButton(operatorController, 4);
   private final JoystickButton faceFront = new JoystickButton(driverController, 5);
@@ -101,15 +101,13 @@ public class RobotContainer {
           indexer.stopHopper();
         }));
       
-   //  <<<<<DRIVER CONTROLLER>>>>>
-    shooterCloseButton.whileHeld(() -> shooter.setVelocity(Constants.BEHIND_LINE_UPPER, Constants.BEHIND_LINE_LOWER));
-      shooterCloseButton.whenReleased(shooter::stopShooter, shooter);          
-    shooterMediumButton.whileHeld(() -> shooter.setVelocity(Constants.FRONT_OF_TRENCH_UPPER, Constants.FRONT_OF_TRENCH_LOWER));
-      shooterMediumButton.whenReleased(shooter::stopShooter, shooter);
-    shooterFarButton.whileHeld(() -> shooter.setVelocity(Constants.BEHIND_TRENCH_UPPER, Constants.BEHIND_TRENCH_LOWER));
-      shooterFarButton.whenReleased(shooter::stopShooter, shooter);
-    newButton.whileHeld(() -> shooter.setVelocity(Constants.NEW_UPPER, Constants.NEW_LOWER));
-      newButton.whenReleased(shooter::stopShooter, shooter);
+    //  <<<<<DRIVER CONTROLLER>>>>>
+    
+    shooterBehindLineButton.whileHeld(shooter::shootFromBehindLine, shooter);
+    shooterBehindLineButton.whenReleased(shooter::stopShooter, shooter);
+    
+    shooterTriangleButton.whileHeld(shooter::shootFromTriangle, shooter);
+    shooterTriangleButton.whenReleased(shooter::stopShooter, shooter);
 
       //turn to 0 degrees...slow rotation with kD?...turn 180deg off?
       //faceFront.whenPressed (new TurnToAngleCommand(0, drivetrain).withTimeout(5));
@@ -120,7 +118,7 @@ public class RobotContainer {
       runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
       runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
     
-    intakeButton.whileHeld(new WaitCommand(1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
+    intakeButton.whileHeld(new WaitCommand(0.1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
     intakeButton.whenPressed(intake::extendIntake, intake);
     intakeButton.whenReleased(intake::retractIntake, intake); 
     intakeButton.whenReleased(intake::stopIntake, intake);
@@ -134,7 +132,6 @@ public class RobotContainer {
       climberDownButton.whenPressed(climber::climberPistonOff, climber);
       climberDownButton.whenReleased(climber::stopClimber, climber);
       climberDownButton.whenReleased(climber::climberPistonOn, climber);
-
 
   // <<<OPERATOR CONTROLLER>>> (If driver-controller automatic functions go wrong... 
   //Operator can overide driver-controller and run mechanisms manually...in/out up/down)
