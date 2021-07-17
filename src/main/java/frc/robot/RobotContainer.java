@@ -12,7 +12,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PerpetualCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IndexerTriggeredCommand;
@@ -117,16 +120,10 @@ public class RobotContainer {
       runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
       runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
     
-    intakeButton.whileHeld(intake::runIntake, intake);
-      intakeButton.whenPressed(intake::extendIntake, intake);
-      intakeButton.whenReleased(intake::retractIntake, intake);   
-      //kicks +5 balls out of hopper
-     intakeButton.whenReleased(new RunCommand (() -> {
-       intake.reverseIntake();
-     }).withTimeout(Constants.INTAKE_REVERSE_TIMEOUT)
-      .andThen(() -> {
-        intake.stopIntake();
-      }));
+    intakeButton.whileHeld(new WaitCommand(1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
+    intakeButton.whenPressed(intake::extendIntake, intake);
+    intakeButton.whenReleased(intake::retractIntake, intake); 
+    intakeButton.whenReleased(intake::stopIntake, intake);
 
     climberUpButton.whileHeld(climber::runClimber, climber);
       climberUpButton.whenPressed(climber::climberPistonOff, climber);
