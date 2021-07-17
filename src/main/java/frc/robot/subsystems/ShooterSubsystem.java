@@ -95,6 +95,9 @@ public class ShooterSubsystem extends SubsystemBase {
   public void shootFromTriangle() {
     setVelocity(Constants.SHOOTER_TRIANGLE_UPPER, Constants.SHOOTER_TRIANGLE_LOWER);
   }
+  public void shootFromFar() {
+    setVelocity(Constants.SHOOTER_FAR_UPPER, Constants.SHOOTER_FAR_LOWER);
+  }
   // Lower_Motor Velocity will always take longer to get on target... so only needs lower velocity
   public boolean isOnTarget() {
     boolean lowerOnTarget = Math.abs(targetVelocityLower - getVelocityLower()) <= Constants.velocityPIDTolerance;

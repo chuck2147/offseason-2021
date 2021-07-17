@@ -49,7 +49,7 @@ public class RobotContainer {
   //shooter buttons
   private final JoystickButton shooterTriangleButton = new JoystickButton(operatorController, 3); // X button
   private final JoystickButton shooterBehindLineButton = new JoystickButton(operatorController, 1); // A button
-  private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2);
+  private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2); // B button
   private final JoystickButton newButton = new JoystickButton(operatorController, 4);
   private final JoystickButton faceFront = new JoystickButton(driverController, 5);
   private final JoystickButton intakeButton = new JoystickButton(operatorController, 6); 
@@ -108,6 +108,9 @@ public class RobotContainer {
     
     shooterTriangleButton.whileHeld(shooter::shootFromTriangle, shooter);
     shooterTriangleButton.whenReleased(shooter::stopShooter, shooter);
+
+    shooterFarButton.whileHeld(shooter::shootFromFar, shooter);
+    shooterFarButton.whenReleased(shooter::stopShooter, shooter);
 
       //turn to 0 degrees...slow rotation with kD?...turn 180deg off?
       //faceFront.whenPressed (new TurnToAngleCommand(0, drivetrain).withTimeout(5));

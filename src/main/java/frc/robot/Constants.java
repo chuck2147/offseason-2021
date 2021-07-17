@@ -45,7 +45,7 @@ public final class Constants {
     public static final int TEST_UPPER = 10000;
     public static final int TEST_LOWER = 0;
 
-    public static final int SHOOTER_TRIANGLE_UPPER = -1000;
+    public static final int SHOOTER_TRIANGLE_UPPER = -5000;
     public static final int SHOOTER_TRIANGLE_LOWER = 12000;
 
     public static final NTValue SHOOTER_BEHIND_LINE_UPPER = new NTValue(5000, "/SmartDashboard/Subsystems/Shooter/BehindLine/Upper");
@@ -54,8 +54,9 @@ public final class Constants {
     public static final int FRONT_OF_TRENCH_UPPER = 300; 
     public static final int FRONT_OF_TRENCH_LOWER = 10400; 
    
-    public static final int BEHIND_TRENCH_UPPER = 300; 
-    public static final int BEHIND_TRENCH_LOWER = 11700; 
+
+    public static final int SHOOTER_FAR_UPPER = 14000; 
+    public static final int SHOOTER_FAR_LOWER = 18700; 
 
     public static final int NEW_UPPER = 16000; 
     public static final int NEW_LOWER = 19000; 
