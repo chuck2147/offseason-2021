@@ -51,7 +51,7 @@ public class SwerveDriveCommand extends CommandBase {
     //   -rotLimiter.calculate(controller.getX(GenericHID.Hand.kRight))
     //     * SwerveDrivetrain.kMaxAngularSpeed;
     //final var rot = controller.getX(GenericHID.Hand.kRight);
-    final var rot = -controller.getRawAxis(2);
+    final var rot = -controller.getRawAxis(4);
 
     if (robotCentric() == true) {
       drivetrain.drive(xSpeed, ySpeed, rot, false);

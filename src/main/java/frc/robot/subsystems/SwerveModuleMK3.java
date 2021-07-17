@@ -105,7 +105,7 @@ public class SwerveModuleMK3 {
     // Find the new absolute position of the module based on the difference in rotation
     double deltaTicks = (rotationDelta.getDegrees() / 360) * kEncoderTicksPerRotation;
     // Convert the CANCoder from it's position reading back to ticks
-    double currentTicks = canCoder.getPosition() / canCoder.configGetFeedbackCoefficient();
+    double currentTicks = canCoder.getPosition() * kEncoderTicksPerRotation / 360;
     double desiredTicks = currentTicks + deltaTicks;
     angleMotor.set(TalonFXControlMode.Position, desiredTicks);
 
