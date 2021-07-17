@@ -53,8 +53,6 @@ public class SwerveDriveCommand extends CommandBase {
     //final var rot = controller.getX(GenericHID.Hand.kRight);
     final var rot = -controller.getRawAxis(2);
 
-    System.out.println(rot);
-
     if (robotCentric() == true) {
       drivetrain.drive(xSpeed, ySpeed, rot, false);
       } else {

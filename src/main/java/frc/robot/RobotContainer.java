@@ -41,14 +41,15 @@ public class RobotContainer {
 
 
   private final XboxController driverController = new XboxController(0);
+  private final XboxController operatorController = new XboxController(1);
   
   //shooter buttons
-  private final JoystickButton shooterCloseButton = new JoystickButton(driverController, 3);
-  private final JoystickButton shooterMediumButton = new JoystickButton(driverController, 1);
-  private final JoystickButton shooterFarButton = new JoystickButton(driverController, 2);
-  private final JoystickButton newButton = new JoystickButton(driverController, 4);
+  private final JoystickButton shooterCloseButton = new JoystickButton(operatorController, 3);
+  private final JoystickButton shooterMediumButton = new JoystickButton(operatorController, 1);
+  private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2);
+  private final JoystickButton newButton = new JoystickButton(operatorController, 4);
   private final JoystickButton faceFront = new JoystickButton(driverController, 5);
-  private final JoystickButton intakeButton = new JoystickButton(driverController, 6); 
+  private final JoystickButton intakeButton = new JoystickButton(operatorController, 6); 
   private final JoystickButton climberUpButton = new JoystickButton(driverController, 7);
   private final JoystickButton climberDownButton = new JoystickButton(driverController, 8);
   //button 9 (left stick button) is for Robot-Centric Drive
