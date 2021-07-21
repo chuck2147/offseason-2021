@@ -17,10 +17,10 @@ import frc.robot.Constants;
 public class SwerveModuleMK3 {
 
   // TODO: Tune these PID values for your robot
-  private static final double kDriveP = 15.0;
-  private static final double kDriveI = 0.01;
-  private static final double kDriveD = 0.1;
-  private static final double kDriveF = 0.2;
+  private static final double kDriveP = 15; 
+  private static final double kDriveI = 0.01; 
+  private static final double kDriveD = 0.1; 
+  private static final double kDriveF = 0.2; 
 
   private static final double kAngleP = (Constants.kAngleP); 
   private static final double kAngleI = (Constants.kAngleI);

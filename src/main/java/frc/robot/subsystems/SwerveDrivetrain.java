@@ -40,8 +40,8 @@ public class SwerveDrivetrain extends SubsystemBase {
   int _loopCount = 0;
 
   // width and length are switched, we are too lazy to figure out which way it should be
-  double length = 17.5;
-  double width = 19.5;
+  double length = 18;
+  double width = 19.75;
   
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
     // Locations for the swerve drive modules relative to the robot center. 
@@ -94,7 +94,11 @@ public class SwerveDrivetrain extends SubsystemBase {
    * @param rot Angular rate of the robot.
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
+  //0.115729 xSpeed deadband
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+
+    xSpeed = applyDeadband(xSpeed, 0.3);
+    ySpeed = applyDeadband(ySpeed, 0.3);
     SwerveModuleState[] states =
       kinematics.toSwerveModuleStates(
         fieldRelative
@@ -121,5 +125,16 @@ public class SwerveDrivetrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
+  }
+  protected double applyDeadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+    } else {
+      return 0.0;
+    }
   }
 }

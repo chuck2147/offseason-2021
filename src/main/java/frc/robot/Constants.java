@@ -17,10 +17,15 @@ package frc.robot;
 public final class Constants {
 
 	//SWERVE OFFSETS
-	public static double frontLeftOffset = 72; 
+	public static double frontLeftOffset = 65; 
 	public static double frontRightOffset = -5;
 	public static double backLeftOffset = 60; 
-	public static double backRightOffset = 40;
+    public static double backRightOffset = 40;
+    
+    // public static double frontLeftOffset = 72; 
+	// public static double frontRightOffset = -5;
+	// public static double backLeftOffset = 60; 
+	// public static double backRightOffset = 40;
 	
     //SWERVE TIME-OUTs
     public static int kLongCANTimeoutMs = 0;  //use for constructors
