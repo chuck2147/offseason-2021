@@ -47,24 +47,24 @@ public final class Constants {
      
     //SHOOTER RPM (max=7000rpm min=100) (max enc units per 100ms = 18000) ***max changes with tuning...20000 now
     
-    public static final int TEST_UPPER = 10000;
-    public static final int TEST_LOWER = 0;
+    public static final NTValue TEST_UPPER = new NTValue(10000, "Shooter Test Upper");
+    public static final NTValue TEST_LOWER = new NTValue(0, "Shooter Test Lower");
 
-    public static final int SHOOTER_TRIANGLE_UPPER = -5000;
-    public static final int SHOOTER_TRIANGLE_LOWER = 12000;
+    public static final NTValue SHOOTER_TRIANGLE_UPPER = new NTValue(-5000, "Shooter Triangle Upper");
+    public static final NTValue SHOOTER_TRIANGLE_LOWER = new NTValue(12000, "Shooter Triangle Lower");
 
-    public static final NTValue SHOOTER_BEHIND_LINE_UPPER = new NTValue(5000, "/SmartDashboard/Subsystems/Shooter/BehindLine/Upper");
-    public static final NTValue SHOOTER_BEHING_LINE_LOWER = new NTValue(12000, "/SmartDashboard/Subsystems/Shooter/BehindLine/Lower");
+    public static final NTValue SHOOTER_BEHIND_LINE_UPPER = new NTValue(5000, "Shooter Behind Line Upper");
+    public static final NTValue SHOOTER_BEHING_LINE_LOWER = new NTValue(12000, "Shooter Behind Line Lower");
     
-    public static final int FRONT_OF_TRENCH_UPPER = 300; 
-    public static final int FRONT_OF_TRENCH_LOWER = 10400; 
+    public static final NTValue FRONT_OF_TRENCH_UPPER = new NTValue(300, "Shooter Front Of Trench Upper"); 
+    public static final NTValue FRONT_OF_TRENCH_LOWER = new NTValue(10400, "Shooter Front OF Trench Lower"); 
    
 
-    public static final int SHOOTER_FAR_UPPER = 14000; 
-    public static final int SHOOTER_FAR_LOWER = 18700; 
+    public static final NTValue SHOOTER_FAR_UPPER = new NTValue(14000, "Shooter Far Upper"); 
+    public static final NTValue SHOOTER_FAR_LOWER = new NTValue(18700, "Shooter Far Lower"); 
 
-    public static final int NEW_UPPER = 16000; 
-    public static final int NEW_LOWER = 19000; 
+    public static final NTValue NEW_UPPER = new NTValue(16000, "Shooter New Upper"); 
+    public static final NTValue NEW_LOWER = new NTValue(19000, "Shooter New Lower");
 
     //returns- velocity on target with + or - tolerance
     public static final double velocityPIDTolerance = 1000;
