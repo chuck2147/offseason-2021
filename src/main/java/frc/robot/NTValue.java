@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public class NTValue {
-  public NTValue (int initialValue, String key) {
+  public NTValue (Double initialValue, String key) {
     ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
     NetworkTableEntry entry = tab.add(key, initialValue)
       .withSize(2, 1)
@@ -18,5 +18,5 @@ public class NTValue {
     }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     value = initialValue;
   }
-  public int value;
+  public double value;
 }
