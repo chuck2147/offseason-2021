@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.NTValue;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SwerveDriveCommand extends CommandBase {
@@ -15,6 +16,9 @@ public class SwerveDriveCommand extends CommandBase {
   private final SlewRateLimiter xspeedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter rotLimiter = new SlewRateLimiter(3);
+
+  public static final NTValue xSpeedDeadBand = new NTValue(0.3, "x Speed DeadBand");
+  public static final NTValue ySpeedDeadBand = new NTValue(0.3, "y Speed DeadBand");
 
   public SwerveDriveCommand(SwerveDrivetrain drivetrain, XboxController controller) {
     this.drivetrain = drivetrain;
@@ -53,6 +57,8 @@ public class SwerveDriveCommand extends CommandBase {
       -yspeedLimiter.calculate(controller.getX(GenericHID.Hand.kLeft))
         * SwerveDrivetrain.kMaxSpeed;
 
+    final var xSpeedDrive = applyDeadband(xSpeed, xSpeedDeadBand.value);
+    final var ySpeedDrive = applyDeadband(ySpeed, ySpeedDeadBand.value);
     // Get the rate of angular rotation. We are inverting this because we want a
     // positive value when we pull to the left (remember, CCW is positive in
     // mathematics). Xbox controllers return positive values when you pull to
@@ -64,9 +70,9 @@ public class SwerveDriveCommand extends CommandBase {
     final var rot = -controller.getRawAxis(4);
 
     if (robotCentric() == true) {
-      drivetrain.drive(xSpeed, ySpeed, rot, false);
+      drivetrain.drive(xSpeedDrive, ySpeedDrive, rot, false);
       } else {
-        drivetrain.drive(xSpeed, ySpeed, rot, true);
+        drivetrain.drive(xSpeedDrive, ySpeedDrive, rot, true);
       } 
 
   }

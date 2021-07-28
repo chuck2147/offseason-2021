@@ -18,20 +18,15 @@ public final class Constants {
 
 	//SWERVE OFFSETS
 	public static double frontLeftOffset = 65; 
-	public static double frontRightOffset = -5;
-	public static double backLeftOffset = 60; 
-    public static double backRightOffset = 40;
-    
-    // public static double frontLeftOffset = 72; 
-	// public static double frontRightOffset = -5;
-	// public static double backLeftOffset = 60; 
-	// public static double backRightOffset = 40;
+	public static double frontRightOffset = -18;
+	public static double backLeftOffset = 45; 
+	public static double backRightOffset = 27;
 	
     //SWERVE TIME-OUTs
     public static int kLongCANTimeoutMs = 0;  //use for constructors
     
     //SWERVE ANGLE MOTORS PID VALUES
-    public static double kAngleP = .3;
+    public static double kAngleP = 0.3; //.3;
 	public static double kAngleI = 0;
 	public static double kAngleD = 0;
     
