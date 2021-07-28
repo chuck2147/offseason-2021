@@ -27,7 +27,17 @@ public class SwerveDriveCommand extends CommandBase {
     return controller.getStickButton(GenericHID.Hand.kLeft);
   } 
 
-
+  protected double applyDeadband(double value, double deadband) {
+    if (Math.abs(value) > deadband) {
+      if (value > 0.0) {
+        return (value - deadband) / (1.0 - deadband);
+      } else {
+        return (value + deadband) / (1.0 - deadband);
+      }
+     } else {
+      return 0.0;
+    }
+  }
   @Override
   public void execute() {
     // Get the x speed. We are inverting this because Xbox controllers return
@@ -60,5 +70,5 @@ public class SwerveDriveCommand extends CommandBase {
       } 
 
   }
-
+  
 }
