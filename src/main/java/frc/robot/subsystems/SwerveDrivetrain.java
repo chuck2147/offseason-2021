@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.NTValue;
 
 public class SwerveDrivetrain extends SubsystemBase {
 
@@ -95,10 +96,12 @@ public class SwerveDrivetrain extends SubsystemBase {
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
   //0.115729 xSpeed deadband
+  public static final NTValue xSpeedDeadBand = new NTValue(0.3, "x Speed DeadBand");
+  public static final NTValue ySpeedDeadBand = new NTValue(0.3, "y Speed DeadBand");
+  
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-
-    xSpeed = applyDeadband(xSpeed, 0.3);
-    ySpeed = applyDeadband(ySpeed, 0.3);
+    xSpeed = applyDeadband(xSpeed, xSpeedDeadBand.value);
+    ySpeed = applyDeadband(ySpeed, ySpeedDeadBand.value);
     SwerveModuleState[] states =
       kinematics.toSwerveModuleStates(
         fieldRelative
