@@ -115,11 +115,8 @@ public class SwerveDrivetrain extends SubsystemBase {
       SwerveModuleMK3 module = modules[i];
       SwerveModuleState state = states[i];
       module.setDesiredState(state);
-  
-        
-      
+
       SmartDashboard.putNumber("gyro Angle", getYaw());
-      
     }
   }
 
