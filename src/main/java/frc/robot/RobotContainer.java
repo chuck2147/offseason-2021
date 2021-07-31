@@ -49,7 +49,7 @@ public class RobotContainer {
   private final JoystickButton shooterTriangleButton = operatorController.getButton(Controller.Button.X);
   private final JoystickButton shooterBehindLineButton = operatorController.getButton(Controller.Button.A);
   private final JoystickButton shooterFarButton = operatorController.getButton(Controller.Button.B);
-  private final JoystickButton newButton = operatorController.getButton(Controller.Button.Y);
+  private final JoystickButton shooterFrontOfTrench = operatorController.getButton(Controller.Button.Y);
   private final JoystickButton faceFront = driverController.getButton(Controller.Button.LeftBumper);
   private final JoystickButton intakeButton = operatorController.getButton(Controller.Button.RightBumper); 
   private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
@@ -108,6 +108,8 @@ public class RobotContainer {
     shooterTriangleButton.whileHeld(shooter::shootFromTriangle, shooter);
     shooterTriangleButton.whenReleased(shooter::stopShooter, shooter);
 
+    shooterFrontOfTrench.whileHeld(shooter::shootFromFrontOfTrench, shooter);
+    shooterFrontOfTrench.whenReleased(shooter::stopShooter, shooter);
     shooterFarButton.whileHeld(shooter::shootFromFar, shooter);
     shooterFarButton.whenReleased(shooter::stopShooter, shooter);
 
