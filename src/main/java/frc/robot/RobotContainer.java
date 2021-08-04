@@ -50,13 +50,15 @@ public class RobotContainer {
   private final JoystickButton shooterBehindLineButton = operatorController.getButton(Controller.Button.A);
   private final JoystickButton shooterFarButton = operatorController.getButton(Controller.Button.B);
   private final JoystickButton shooterFrontOfTrench = operatorController.getButton(Controller.Button.Y);
-  private final JoystickButton faceFront = driverController.getButton(Controller.Button.LeftBumper);
-  private final JoystickButton intakeButton = operatorController.getButton(Controller.Button.RightBumper); 
+  private final JoystickButton intakeButton = operatorController.getButton(Controller.Button.RightBumper);
+  private final AxisTrigger runIndexerButton = new AxisTrigger(operatorController, 3);
+  private final AxisTrigger runIndexerReverseButton = new AxisTrigger(operatorController, 2);
+
   private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
-  private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);
+  private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
+  private final JoystickButton faceFront = driverController.getButton(Controller.Button.LeftBumper);
   //button 9 (left stick button) is for Robot-Centric Drive
-  private final AxisTrigger runIndexerButton = new AxisTrigger(driverController, 3);
- 
+
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   /**
@@ -64,7 +66,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     drivetrain.setDefaultCommand(new SwerveDriveCommand(drivetrain, driverController));
-
     configureButtonBindings();   
     SmartDashboard.putData("Auto Selector", autoChooser); 
   }
@@ -122,6 +123,9 @@ public class RobotContainer {
       runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
       runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
     
+      runIndexerReverseButton.whileHeld(indexer::runReverse, indexer);
+      runIndexerReverseButton.whenReleased(indexer::stopFeedToShooter, indexer);
+     
     intakeButton.whileHeld(new WaitCommand(0.1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
     intakeButton.whenPressed(intake::extendIntake, intake);
     intakeButton.whenReleased(intake::retractIntake, intake); 

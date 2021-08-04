@@ -49,7 +49,7 @@ public final class Constants {
     public static final NTValue SHOOTER_BEHING_LINE_LOWER = new NTValue(10000, "Shooter Behind Line Lower");
     
     public static final NTValue SHOOTER_FRONT_OF_TRENCH_UPPER = new NTValue(4000, "Shooter Front Of Trench Upper"); 
-    public static final NTValue SHOOTER_FRONT_OF_TRENCH_LOWER = new NTValue(15000, "Shooter Front OF Trench Lower"); 
+    public static final NTValue SHOOTER_FRONT_OF_TRENCH_LOWER = new NTValue(12750, "Shooter Front OF Trench Lower"); 
    
 
     public static final NTValue SHOOTER_FAR_UPPER = new NTValue(14000, "Shooter Far Upper"); 
