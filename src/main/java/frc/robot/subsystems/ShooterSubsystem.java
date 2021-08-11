@@ -73,18 +73,18 @@ public class ShooterSubsystem extends SubsystemBase {
     upperMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     lowerMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
    
-    /* Config the Velocity closed loop gains in slot0 (PID_SLOT, PID_vALUE, timeouts)*/
+    /* Config the Velocity closed loop gains in slot0 (PID_SLOT, PID_VALUE, timeouts)*/
     //TODO tune
 
-		upperMotor.config_kF(0, kF_upper, 30);
-    upperMotor.config_kP(0, kP_upper, 30);
-    upperMotor.config_kI(0, kI_upper, 30);
-    upperMotor.config_kD(0, kD_upper, 30);
+    upperMotor.config_kP(0, 0.3, 30);
+    upperMotor.config_kI(0, 0, 30);
+    upperMotor.config_kD(0, 4.5, 30);
+    upperMotor.config_kF(0, 0.0487, 30);
 
-    lowerMotor.config_kF(0, kF_lower, 30);
-    lowerMotor.config_kP(0, kP_lower, 30);
-    lowerMotor.config_kI(0, kI_lower, 30);
-    lowerMotor.config_kD(0, kD_lower, 30);
+    lowerMotor.config_kP(0, 0.3, 30);
+    lowerMotor.config_kI(0, 0, 30);
+    lowerMotor.config_kD(0, 4.5, 30);
+    lowerMotor.config_kF(0, 0.0487, 30);
     // PIDF
     new PIDNTValue(0.3, 0, 4.5, 0.0487, upperMotor, "Upper"); 
     new PIDNTValue(0.3, 0, 4.5, 0.0487, lowerMotor, "Lower"); 
