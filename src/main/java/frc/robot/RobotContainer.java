@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
-import frc.robot.commands.VisionAlign;
+import frc.robot.commands.VisionAlignCommand;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -56,7 +56,7 @@ public class RobotContainer {
 
   private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
   private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
-  private final JoystickButton faceFront = driverController.getButton(Controller.Button.LeftBumper);
+  private final JoystickButton faceTargetButton = driverController.getButton(Controller.Button.A);
   //button 9 (left stick button) is for Robot-Centric Drive
 
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -113,18 +113,14 @@ public class RobotContainer {
     shooterFrontOfTrench.whenReleased(shooter::stopShooter, shooter);
     shooterFarButton.whileHeld(shooter::shootFromFar, shooter);
     shooterFarButton.whenReleased(shooter::stopShooter, shooter);
-
-      //turn to 0 degrees...slow rotation with kD?...turn 180deg off?
-      //faceFront.whenPressed (new TurnToAngleCommand(0, drivetrain).withTimeout(5));
-
-      faceFront.whileHeld(new VisionAlign(drivetrain));
-      faceFront.whenReleased(new SwerveDriveCommand(drivetrain, driverController));
+  
+    faceTargetButton.whileHeld(new VisionAlignCommand(drivetrain));
     
-      runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
-      runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
-    
-      runIndexerReverseButton.whileHeld(indexer::runReverse, indexer);
-      runIndexerReverseButton.whenReleased(indexer::stopFeedToShooter, indexer);
+    runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
+    runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
+  
+    runIndexerReverseButton.whileHeld(indexer::runReverse, indexer);
+    runIndexerReverseButton.whenReleased(indexer::stopFeedToShooter, indexer);
      
     intakeButton.whileHeld(new WaitCommand(0.1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
     intakeButton.whenPressed(intake::extendIntake, intake);
