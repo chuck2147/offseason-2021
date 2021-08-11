@@ -10,6 +10,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.NTValue;
+import frc.robot.PIDNTValue;
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -67,7 +69,11 @@ public class ShooterSubsystem extends SubsystemBase {
     lowerMotor.config_kP(0, kP_lower, 30);
     lowerMotor.config_kI(0, kI_lower, 30);
     lowerMotor.config_kD(0, kD_lower, 30);
+    // PIDF
+    new PIDNTValue(0.3, 0, 4.5, 0.0487, upperMotor, "Upper"); 
+    new PIDNTValue(0.3, 0, 4.5, 0.0487, lowerMotor, "Lower"); 
   }
+
 
   public void stopShooter() {
     upperMotor.set(ControlMode.PercentOutput, 0);
