@@ -17,10 +17,12 @@ public class NTValue {
       .withSize(2, 1)
       .withWidget(BuiltInWidgets.kTextView) // specify the widget here
       .getEntry();
+    entry.setValue(initialValue);
     entry.addListener(event -> {
       value = entry.getValue().getDouble();
     }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
     value = initialValue;
+    this.entry = entry;
   }
   public double value;
   public NetworkTableEntry entry;
