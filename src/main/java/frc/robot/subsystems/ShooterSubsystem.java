@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.NTValue;
+import frc.robot.PIDNTValue;
+
 
 public class ShooterSubsystem extends SubsystemBase {
 
@@ -71,38 +73,11 @@ public class ShooterSubsystem extends SubsystemBase {
     upperMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
     lowerMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
    
-    /* Config the Velocity closed loop gains in slot0 (PID_SLOT, PID_vALUE, timeouts)*/
-    //TODO tune
-    NTValue KFUpper = new NTValue(0.0487, "kF Upper");
-    KFUpper.entry.addListener((event) -> {
-      upperMotor.config_kF(0, event.value.getDouble(), 30);
-      lowerMotor.config_kF(0, event.value.getDouble(), 30);
-    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		upperMotor.config_kF(0, KFUpper.value, 30);
-    NTValue KPUpper = new NTValue(0.3, "kP Upper");
-    KPUpper.entry.addListener((event) -> {
-      upperMotor.config_kP(0, event.value.getDouble(), 30);
-      lowerMotor.config_kP(0, event.value.getDouble(), 30);
-    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		upperMotor.config_kP(0, KPUpper.value, 30);
-    NTValue KIUpper = new NTValue(0, "kI Upper");
-    KIUpper.entry.addListener((event) -> {
-      upperMotor.config_kI(0, event.value.getDouble(), 30);
-      lowerMotor.config_kI(0, event.value.getDouble(), 30);
-    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		upperMotor.config_kI(0, KIUpper.value, 30);
-    NTValue KDUpper = new NTValue(4.5, "kD Upper");
-    KDUpper.entry.addListener((event) -> {
-      upperMotor.config_kD(0, event.value.getDouble(), 30);
-      lowerMotor.config_kD(0, event.value.getDouble(), 30);
-    }, EntryListenerFlags.kNew | EntryListenerFlags.kUpdate);
-		upperMotor.config_kD(0, KDUpper.value, 30);
-
-    lowerMotor.config_kF(0, KFUpper.value, 30);
-    lowerMotor.config_kP(0, KPUpper.value, 30);
-    lowerMotor.config_kI(0, KIUpper.value, 30);
-    lowerMotor.config_kD(0, KDUpper.value, 30);
+    // PIDF
+    new PIDNTValue(0.3, 0, 4.5, 0.0487, upperMotor, "Upper Shooter"); 
+    new PIDNTValue(0.3, 0, 4.5, 0.0487, lowerMotor, "Lower Shooter"); 
   }
+
 
   public void stopShooter() {
     upperMotor.set(ControlMode.PercentOutput, 0);
