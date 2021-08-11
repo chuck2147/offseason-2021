@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.SlewRateLimiter;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Controller;
 import frc.robot.subsystems.SwerveDrivetrain;
 
 public class SwerveDriveCommand extends CommandBase {
@@ -16,7 +17,7 @@ public class SwerveDriveCommand extends CommandBase {
   private final SlewRateLimiter yspeedLimiter = new SlewRateLimiter(3);
   private final SlewRateLimiter rotLimiter = new SlewRateLimiter(3);
 
-  public SwerveDriveCommand(SwerveDrivetrain drivetrain, XboxController controller) {
+  public SwerveDriveCommand(SwerveDrivetrain drivetrain, Controller controller) {
     this.drivetrain = drivetrain;
     addRequirements(drivetrain);
 
@@ -27,31 +28,12 @@ public class SwerveDriveCommand extends CommandBase {
     return controller.getStickButton(GenericHID.Hand.kLeft);
   } 
 
-
   @Override
   public void execute() {
-    // Get the x speed. We are inverting this because Xbox controllers return
-    // negative values when we push forward.
-    final var xSpeed =
-      -xspeedLimiter.calculate(controller.getY(GenericHID.Hand.kLeft))
-        * SwerveDrivetrain.kMaxSpeed;
-
-    // Get the y speed or sideways/strafe speed. We are inverting this because
-    // we want a positive value when we pull to the left. Xbox controllers
-    // return positive values when you pull to the right by default.
-    final var ySpeed =
-      -yspeedLimiter.calculate(controller.getX(GenericHID.Hand.kLeft))
-        * SwerveDrivetrain.kMaxSpeed;
-
-    // Get the rate of angular rotation. We are inverting this because we want a
-    // positive value when we pull to the left (remember, CCW is positive in
-    // mathematics). Xbox controllers return positive values when you pull to
-    // the right by default.
-    // final var rot =
-    //   -rotLimiter.calculate(controller.getX(GenericHID.Hand.kRight))
-    //     * SwerveDrivetrain.kMaxAngularSpeed;
-    //final var rot = controller.getX(GenericHID.Hand.kRight);
-    final var rot = -controller.getRawAxis(4);
+    // GetX and GetY are swapped.
+    final var xSpeed = -controller.getY(GenericHID.Hand.kLeft);
+    final var ySpeed = -controller.getX(GenericHID.Hand.kLeft);
+    final var rot = -controller.getRawAxis(4) * 3;
 
     if (robotCentric() == true) {
       drivetrain.drive(xSpeed, ySpeed, rot, false);
@@ -60,5 +42,5 @@ public class SwerveDriveCommand extends CommandBase {
       } 
 
   }
-
+  
 }

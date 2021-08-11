@@ -95,13 +95,16 @@ public class SwerveDrivetrain extends SubsystemBase {
    * @param rot Angular rate of the robot.
    * @param fieldRelative Whether the provided x and y speeds are relative to the field.
    */
-  //0.115729 xSpeed deadband
-  public static final NTValue xSpeedDeadBand = new NTValue(0.3, "x Speed DeadBand");
-  public static final NTValue ySpeedDeadBand = new NTValue(0.3, "y Speed DeadBand");
   
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-    xSpeed = applyDeadband(xSpeed, xSpeedDeadBand.value);
-    ySpeed = applyDeadband(ySpeed, ySpeedDeadBand.value);
+
+    // var modules = new SwerveModuleMK3[] {
+    //   new SwerveModuleMK3(new TalonFX(1), new TalonFX(2), new CANCoder(1), Rotation2d.fromDegrees(Constants.frontLeftOffset.value)), // Front Left
+    //   new SwerveModuleMK3(new TalonFX(3), new TalonFX(4), new CANCoder(2), Rotation2d.fromDegrees(Constants.frontRightOffset.value)), // Front Right
+    //   new SwerveModuleMK3(new TalonFX(5), new TalonFX(6), new CANCoder(3), Rotation2d.fromDegrees(Constants.backLeftOffset.value)), // Back Left
+    //   new SwerveModuleMK3(new TalonFX(7), new TalonFX(8), new CANCoder(4), Rotation2d.fromDegrees(Constants.backRightOffset.value))  // Back Right
+    // };
+
     SwerveModuleState[] states =
       kinematics.toSwerveModuleStates(
         fieldRelative
@@ -112,11 +115,8 @@ public class SwerveDrivetrain extends SubsystemBase {
       SwerveModuleMK3 module = modules[i];
       SwerveModuleState state = states[i];
       module.setDesiredState(state);
-  
-        
-      
+
       SmartDashboard.putNumber("gyro Angle", getYaw());
-      
     }
   }
 
@@ -128,16 +128,5 @@ public class SwerveDrivetrain extends SubsystemBase {
   @Override
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
-  }
-  protected double applyDeadband(double value, double deadband) {
-    if (Math.abs(value) > deadband) {
-      if (value > 0.0) {
-        return (value - deadband) / (1.0 - deadband);
-      } else {
-        return (value + deadband) / (1.0 - deadband);
-      }
-    } else {
-      return 0.0;
-    }
   }
 }

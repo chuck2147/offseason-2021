@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.print.event.PrintJobListener;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -7,25 +9,38 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.EntryListenerFlags;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.NTValue;
 import frc.robot.PIDNTValue;
+
 
 public class ShooterSubsystem extends SubsystemBase {
 
   private final TalonFX upperMotor = new TalonFX(Constants.UPPER_SHOOTER_MOTOR);
   private final TalonFX lowerMotor = new TalonFX(Constants.LOWER_SHOOTER_MOTOR);
 
-// TODO: Tune these PID values for your robot
-  private static double kF_upper = .05;
-	private static double kP_upper = .05;
-	private static double kI_upper = 0;
-  private static double kD_upper = 0;
+  ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
+  NetworkTableEntry upperVelocityGraphEntry = tab.add("Upper Current Velocity Graph", 0)
+    .withSize(2, 1)
+    .withWidget(BuiltInWidgets.kGraph)
+    .getEntry();
+    NetworkTableEntry upperVelocityEntry = tab.add("Upper Current Velocity", 0)
+    .withSize(2, 1)
+    .withWidget(BuiltInWidgets.kTextView)
+    .getEntry();
+  NetworkTableEntry lowerVelocityEntry = tab.add("Lower Current Velocity", 0)
+    .withSize(2, 1)
+    .withWidget(BuiltInWidgets.kTextView)
+    .getEntry();
     
-  private static double kF_lower = .05;
-	private static double kP_lower = .05;
+  private static double kF_lower = 0;
+	private static double kP_lower = 0;
 	private static double kI_lower = 0;
 	private static double kD_lower = 0;  
   
@@ -60,6 +75,7 @@ public class ShooterSubsystem extends SubsystemBase {
    
     /* Config the Velocity closed loop gains in slot0 (PID_SLOT, PID_vALUE, timeouts)*/
     //TODO tune
+
 		upperMotor.config_kF(0, kF_upper, 30);
     upperMotor.config_kP(0, kP_upper, 30);
     upperMotor.config_kI(0, kI_upper, 30);
@@ -100,6 +116,9 @@ public class ShooterSubsystem extends SubsystemBase {
   }
   public void shootFromTriangle() {
     setVelocity(Constants.SHOOTER_TRIANGLE_UPPER.value, Constants.SHOOTER_TRIANGLE_LOWER.value);
+  }
+  public void shootFromFrontOfTrench(){
+    setVelocity(Constants.SHOOTER_FRONT_OF_TRENCH_UPPER.value, Constants.SHOOTER_FRONT_OF_TRENCH_LOWER.value);
   }
   public void shootFromFar() {
     setVelocity(Constants.SHOOTER_FAR_UPPER.value, Constants.SHOOTER_FAR_LOWER.value);
@@ -145,15 +164,14 @@ public class ShooterSubsystem extends SubsystemBase {
         rollingAvg--;
       }
     }
+    upperVelocityEntry.setValue(upperMotor.getSelectedSensorVelocity());
+    upperVelocityGraphEntry.setValue(lowerMotor.getSelectedSensorVelocity());
+    lowerVelocityEntry.setValue(lowerMotor.getSelectedSensorVelocity());
 
-
-    SmartDashboard.putNumber("Upper Velocity", upperMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Lower Velocity", lowerMotor.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("Target Velocity", targetVelocityLower);
-    SmartDashboard.putBoolean("Launcher On Target", isOnTarget());
-    SmartDashboard.putBoolean("Avg Launcher On Target", isOnTargetAverage(10));
-    
-    
+    // SmartDashboard.putNumber("Upper Velocity", upperMotor.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("Lower Velocity", lowerMotor.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber("Target Velocity", targetVelocityLower);
+    // SmartDashboard.putBoolean("Launcher On Target", isOnTarget());
+    // SmartDashboard.putBoolean("Avg Launcher On Target", isOnTargetAverage(10));
   }
-
 }

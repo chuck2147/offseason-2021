@@ -42,21 +42,23 @@ public class RobotContainer {
   private final ClimberSubsystem climber = new ClimberSubsystem();
 
 
-  private final XboxController driverController = new XboxController(0);
-  private final XboxController operatorController = new XboxController(1);
+  private final Controller driverController = new Controller(0, 0.05);
+  private final Controller operatorController = new Controller(1, 0.05);
   
   //shooter buttons
-  private final JoystickButton shooterTriangleButton = new JoystickButton(operatorController, 3); // X button
-  private final JoystickButton shooterBehindLineButton = new JoystickButton(operatorController, 1); // A button
-  private final JoystickButton shooterFarButton = new JoystickButton(operatorController, 2); // B button
-  private final JoystickButton newButton = new JoystickButton(operatorController, 4);
-  private final JoystickButton faceFront = new JoystickButton(driverController, 5);
-  private final JoystickButton intakeButton = new JoystickButton(operatorController, 6); 
-  private final JoystickButton climberUpButton = new JoystickButton(driverController, 7);
-  private final JoystickButton climberDownButton = new JoystickButton(driverController, 8);
+  private final JoystickButton shooterTriangleButton = operatorController.getButton(Controller.Button.X);
+  private final JoystickButton shooterBehindLineButton = operatorController.getButton(Controller.Button.A);
+  private final JoystickButton shooterFarButton = operatorController.getButton(Controller.Button.B);
+  private final JoystickButton shooterFrontOfTrench = operatorController.getButton(Controller.Button.Y);
+  private final JoystickButton intakeButton = operatorController.getButton(Controller.Button.RightBumper);
+  private final AxisTrigger runIndexerButton = new AxisTrigger(operatorController, 3);
+  private final AxisTrigger runIndexerReverseButton = new AxisTrigger(operatorController, 2);
+
+  private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
+  private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
+  private final JoystickButton faceFront = driverController.getButton(Controller.Button.LeftBumper);
   //button 9 (left stick button) is for Robot-Centric Drive
-  private final AxisTrigger runIndexerButton = new AxisTrigger(driverController, 3);
- 
+
   private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   /**
@@ -64,7 +66,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
     drivetrain.setDefaultCommand(new SwerveDriveCommand(drivetrain, driverController));
-
     configureButtonBindings();   
     SmartDashboard.putData("Auto Selector", autoChooser); 
   }
@@ -108,6 +109,8 @@ public class RobotContainer {
     shooterTriangleButton.whileHeld(shooter::shootFromTriangle, shooter);
     shooterTriangleButton.whenReleased(shooter::stopShooter, shooter);
 
+    shooterFrontOfTrench.whileHeld(shooter::shootFromFrontOfTrench, shooter);
+    shooterFrontOfTrench.whenReleased(shooter::stopShooter, shooter);
     shooterFarButton.whileHeld(shooter::shootFromFar, shooter);
     shooterFarButton.whenReleased(shooter::stopShooter, shooter);
 
@@ -120,6 +123,9 @@ public class RobotContainer {
       runIndexerButton.whileHeld(indexer::feedToShooter, indexer);
       runIndexerButton.whenReleased(indexer::stopFeedToShooter, indexer);
     
+      runIndexerReverseButton.whileHeld(indexer::runReverse, indexer);
+      runIndexerReverseButton.whenReleased(indexer::stopFeedToShooter, indexer);
+     
     intakeButton.whileHeld(new WaitCommand(0.1).andThen(new InstantCommand(intake::runIntake, intake).perpetually()));
     intakeButton.whenPressed(intake::extendIntake, intake);
     intakeButton.whenReleased(intake::retractIntake, intake); 

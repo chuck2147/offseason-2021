@@ -21,6 +21,9 @@ public class AxisTrigger extends Button {
 
     @Override
     public boolean get() {
-        return controller.getRawAxis(axisNumber) > threshold;
+       if (threshold <= 0) {
+        return controller.getRawAxis(axisNumber) < threshold;
+       } 
+       return controller.getRawAxis(axisNumber) > threshold;
     }
 }

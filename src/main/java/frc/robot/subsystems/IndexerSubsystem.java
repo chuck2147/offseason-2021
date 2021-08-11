@@ -59,6 +59,18 @@ public IndexerSubsystem() {
       hopperMotor.set(Constants.HOPPER_SPEED);
     }
 
+    public void runReverseIndexer() {
+      indexerMotor.set(-Constants.INDEXER_SPEED);
+    }
+
+    public void runReverseHopper() {
+      hopperMotor.set(-Constants.HOPPER_SPEED);
+    }
+
+    public void runReverse() {
+      indexerMotor.set(-Constants.INDEXER_SPEED);
+      hopperMotor.set(-Constants.HOPPER_SPEED);
+    }
     public void feedToShooter() {
       indexerMotor.set(Constants.INDEXER_SPEED);
       hopperMotor.set(Constants.HOPPER_SPEED);
