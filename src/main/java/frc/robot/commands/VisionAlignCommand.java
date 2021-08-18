@@ -9,10 +9,11 @@ import frc.robot.subsystems.SwerveDrivetrain;
 
 public class VisionAlignCommand extends CommandBase {
   SwerveDrivetrain drivetrain;
-  private PIDController pid = new PIDController(Constants.VISION_ALIGN_P, Constants.VISION_ALIGN_I, Constants.VISION_ALIGN_D);
+  private PIDController pid = new PIDController(Constants.VISION_ALIGN_P, Constants.VISION_ALIGN_I, Constants.VISION_ALIGN_D, 0.01);
   public VisionAlignCommand(SwerveDrivetrain drivetrain) {
     addRequirements(drivetrain);
     new PIDNTValue(Constants.VISION_ALIGN_P, Constants.VISION_ALIGN_I, Constants.VISION_ALIGN_D, pid, "Vision Align");
+    this.drivetrain = drivetrain;
   }
   
   @Override
@@ -24,8 +25,8 @@ public class VisionAlignCommand extends CommandBase {
   @Override
   public void execute() {
     double xTarget = Limelight.getTargetX();
-    double pidAngularVelocity = pid.calculate(0, xTarget);
+    System.out.println(xTarget);
+    double pidAngularVelocity = pid.calculate(0, -xTarget);
     drivetrain.drive(0, 0, pidAngularVelocity, true);
-    pid.setPID(Constants.VISION_ALIGN_P, Constants.VISION_ALIGN_I, Constants.VISION_ALIGN_D);
   }
 }

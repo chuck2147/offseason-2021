@@ -108,8 +108,8 @@ public final class Constants {
     public static final double LOWER_SHOOTER_F = 0.0487;
 
     //LIMELIGHT PIDs 
-    public static final double VISION_ALIGN_P = 0.1;
+    public static final double VISION_ALIGN_P = 0.185;
     public static final double VISION_ALIGN_I = 0;
-    public static final double VISION_ALIGN_D = 0;
+    public static final double VISION_ALIGN_D = 0.005;
     public static final double VISION_ALIGN_F = 0;
 }
