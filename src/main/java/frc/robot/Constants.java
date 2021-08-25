@@ -97,7 +97,9 @@ public final class Constants {
     public static final int SPINNER_AIR_OUT = 7;
 	public static final double kTurnRateToleranceDegPerS = 0;
 
-
+    public enum ClimberState {
+        Down, Up, UpAll
+    }
 	
     
         
