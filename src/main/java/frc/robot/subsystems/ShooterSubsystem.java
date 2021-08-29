@@ -74,8 +74,8 @@ public class ShooterSubsystem extends SubsystemBase {
     lowerMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, 0, 30);
    
     // PIDF
-    new PIDNTValue(0.3, 0, 4.5, 0.0487, upperMotor, "Upper Shooter"); 
-    new PIDNTValue(0.3, 0, 4.5, 0.0487, lowerMotor, "Lower Shooter"); 
+    new PIDNTValue(Constants.UPPER_SHOOTER_P, Constants.UPPER_SHOOTER_I, Constants.UPPER_SHOOTER_D, Constants.UPPER_SHOOTER_F, upperMotor, "Upper Shooter"); 
+    new PIDNTValue(Constants.LOWER_SHOOTER_P, Constants.LOWER_SHOOTER_I, Constants.LOWER_SHOOTER_D, Constants.LOWER_SHOOTER_F, lowerMotor, "Lower Shooter"); 
   }
 
 

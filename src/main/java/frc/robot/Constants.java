@@ -97,11 +97,24 @@ public final class Constants {
     public static final int SPINNER_AIR_OUT = 7;
 	public static final double kTurnRateToleranceDegPerS = 0;
 
+    //MOTOR PIDs
+    public static final double UPPER_SHOOTER_P = 0.3;
+    public static final double UPPER_SHOOTER_I = 0;
+    public static final double UPPER_SHOOTER_D = 4.5;
+    public static final double UPPER_SHOOTER_F = 0.0487; 
+    public static final double LOWER_SHOOTER_P = 0.3;
+    public static final double LOWER_SHOOTER_I = 0;
+    public static final double LOWER_SHOOTER_D = 4.5;
+    public static final double LOWER_SHOOTER_F = 0.0487;
+
+    //LIMELIGHT PIDs 
+    public static final double VISION_ALIGN_P = 0.185;
+    public static final double VISION_ALIGN_I = 0;
+    public static final double VISION_ALIGN_D = 0.005;
+    public static final double VISION_ALIGN_F = 0;
+
     public enum ClimberState {
         Down, Up, UpAll
     }
 	
-    
-        
-
 }
