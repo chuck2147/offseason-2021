@@ -112,4 +112,9 @@ public final class Constants {
     public static final double VISION_ALIGN_I = 0;
     public static final double VISION_ALIGN_D = 0.005;
     public static final double VISION_ALIGN_F = 0;
+
+    public enum ClimberState {
+        Down, Up, UpAll
+    }
+	
 }
