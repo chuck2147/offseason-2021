@@ -90,6 +90,8 @@ public class RobotContainer {
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Up));
     driverController.getButton(Controller.Button.Start)
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Down));
+    driverController.getButton(Controller.Button.Y)
+    .whileHeld(new ClimberCommand(climber, intake, ClimberState.UpAll));
     //autoChooser.addOption("Shot Drive Back", new AutoShotDriveBack(drivetrain, shooter, indexer));
 
     // <<<INTERNAL Triggers are actions that happen without a joystick action needed and are always running when enabled.>>>
