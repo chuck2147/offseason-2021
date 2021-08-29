@@ -13,17 +13,19 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.PIDNTValue;
+import frc.robot.commands.ClimberCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final TalonFX climberMotor = new TalonFX(Constants.CLIMB_MOTOR);
   private final DoubleSolenoid climberPiston = new DoubleSolenoid(Constants.CLIMBER_AIR_IN,Constants.CLIMBER_AIR_OUT);
 
   public ClimberSubsystem() {
-  
     
     climberMotor.configFactoryDefault();
     climberMotor.setNeutralMode(NeutralMode.Brake);
-    climberMotor.setInverted(TalonFXInvertType.CounterClockwise); 
+    climberMotor.setInverted(TalonFXInvertType.CounterClockwise);
+    new PIDNTValue(Constants.CLIMBER_ALL_UP_P, Constants.CLIMBER_ALL_UP_I, Constants.CLIMBER_ALL_UP_D, Constants.CLIMBER_ALL_UP_F, climberMotor, "ClimberCommand Up"); 
   }
 
 
@@ -47,9 +49,6 @@ public class ClimberSubsystem extends SubsystemBase {
     climberPiston.set(Value.kForward);
   }
 
-  public void runAllUp() {
-    
-  }
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

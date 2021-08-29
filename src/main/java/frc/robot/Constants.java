@@ -113,6 +113,12 @@ public final class Constants {
     public static final double VISION_ALIGN_D = 0.005;
     public static final double VISION_ALIGN_F = 0;
 
+    //CLIMBER PIDs
+    public static final double CLIMBER_ALL_UP_P = 0.185;
+    public static final double CLIMBER_ALL_UP_I = 0;
+    public static final double CLIMBER_ALL_UP_D = 0;
+    public static final double CLIMBER_ALL_UP_F = 0;
+
     public enum ClimberState {
         Down, Up, UpAll
     }
