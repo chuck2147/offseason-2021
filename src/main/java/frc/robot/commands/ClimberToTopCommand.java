@@ -36,7 +36,6 @@ public class ClimberToTopCommand extends CommandBase {
   @Override
   public boolean isFinished() {
     double encodervalue = climberMotor.getSelectedSensorPosition();
-    double heightTarget = Constants.climberDistance - encodervalue;
-    return Math.abs(heightTarget) <= 1;
+    return Math.abs(encodervalue) <= 1;
   }
 }
