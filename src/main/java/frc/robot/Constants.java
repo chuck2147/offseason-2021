@@ -119,6 +119,14 @@ public final class Constants {
     public static final double CLIMBER_ALL_UP_D = 0;
     public static final double CLIMBER_ALL_UP_F = 0;
 
+
+    //CLIMBER ALL UP ENCODER CONSTANTs
+    public static double climberSensorUnitsPerRotation = 2048;
+    public static double climberGearRatio = 1; 
+    public static double climberMaxRPM = 6380;
+    //Amount of sensor units per 100ms
+    public static double climberPeakSensorVelocity = (climberMaxRPM / 600) * (climberSensorUnitsPerRotation / climberGearRatio);
+
     public enum ClimberState {
         Down, Up, UpAll
     }
