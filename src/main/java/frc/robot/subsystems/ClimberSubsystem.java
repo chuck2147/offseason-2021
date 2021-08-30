@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.PIDNTValue;
-import frc.robot.commands.ClimberCommand;
 
 public class ClimberSubsystem extends SubsystemBase {
   private final TalonFX climberMotor = new TalonFX(Constants.CLIMB_MOTOR);
