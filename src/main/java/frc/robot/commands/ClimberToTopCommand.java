@@ -9,13 +9,13 @@ import frc.robot.Constants;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class ClimberAllUpCommand extends CommandBase {
+public class ClimberToTopCommand extends CommandBase {
   private final ClimberSubsystem climber;
   private final IntakeSubsystem intake;
   private PIDController pid = new PIDController(Constants.CLIMBER_ALL_UP_P, Constants.CLIMBER_ALL_UP_I, Constants.CLIMBER_ALL_UP_D, 0.01);
   private TalonFX climberMotor;
 
-  public ClimberAllUpCommand(ClimberSubsystem climber, IntakeSubsystem intake) {
+  public ClimberToTopCommand(ClimberSubsystem climber, IntakeSubsystem intake) {
     this.climber = climber;
     this.intake = intake;
     this.climber.climberMotor = climberMotor;
