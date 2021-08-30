@@ -16,7 +16,7 @@ import frc.robot.Constants;
 import frc.robot.PIDNTValue;
 
 public class ClimberSubsystem extends SubsystemBase {
-  private final TalonFX climberMotor = new TalonFX(Constants.CLIMB_MOTOR);
+  public TalonFX climberMotor = new TalonFX(Constants.CLIMB_MOTOR);
   private final DoubleSolenoid climberPiston = new DoubleSolenoid(Constants.CLIMBER_AIR_IN,Constants.CLIMBER_AIR_OUT);
 
   public ClimberSubsystem() {

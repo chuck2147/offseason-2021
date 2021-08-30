@@ -126,6 +126,7 @@ public final class Constants {
     public static double climberMaxRPM = 6380;
     //Amount of sensor units per 100ms
     public static double climberPeakSensorVelocity = (climberMaxRPM / 600) * (climberSensorUnitsPerRotation / climberGearRatio);
+    public static double climberDistance = climberPeakSensorVelocity * 10;
 
     public enum ClimberState {
         Down, Up, UpAll
