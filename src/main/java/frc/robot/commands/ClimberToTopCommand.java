@@ -11,12 +11,10 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class ClimberToTopCommand extends CommandBase {
   private final ClimberSubsystem climber;
   private final IntakeSubsystem intake;
-  private TalonFX climberMotor;
 
   public ClimberToTopCommand(ClimberSubsystem climber, IntakeSubsystem intake) {
     this.climber = climber;
     this.intake = intake;
-    this.climber.climberMotor = climberMotor;
     addRequirements(climber, intake);
   }  
 
@@ -27,15 +25,15 @@ public class ClimberToTopCommand extends CommandBase {
 
   @Override
   public void execute(){
-    double pidError = (Constants.climberPeakSensorVelocity - climberMotor.getSelectedSensorVelocity())/100;
+    double pidError = (Constants.climberPeakSensorVelocity - this.climber.climberMotor.getSelectedSensorVelocity())/100;
     System.out.println(pidError);
-    climberMotor.set(TalonFXControlMode.Position, 0);
+    this.climber.climberMotor.set(TalonFXControlMode.Position, 0);
     climber.climberPistonOff();
   }
 
   @Override
   public boolean isFinished() {
-    double encodervalue = climberMotor.getSelectedSensorPosition();
+    double encodervalue = this.climber.climberMotor.getSelectedSensorPosition();
     return Math.abs(encodervalue) <= 1;
   }
 }
