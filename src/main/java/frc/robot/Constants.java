@@ -120,7 +120,11 @@ public final class Constants {
     public static final double CLIMBER_ALL_UP_F = 0;
 
 
-    //CLIMBER ALL UP ENCODER CONSTANTs
+    //CLIMBER ALL UP ENCODER CONSTANT
+    //TODO figure out the setpoint for the To Top command.
+    //TODO measure the climber target distance and plug that into varibale.
+    public static final double CLIMBERTOTOPSETPOINT = 0;
+    public static final double CLIMBERTARGET = 0;
     public static double climberSensorUnitsPerRotation = 2048;
     public static double climberGearRatio = 1; 
     public static double climberMaxRPM = 6380;

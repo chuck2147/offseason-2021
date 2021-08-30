@@ -27,13 +27,13 @@ public class ClimberToTopCommand extends CommandBase {
   public void execute(){
     double pidError = (Constants.climberPeakSensorVelocity - this.climber.climberMotor.getSelectedSensorVelocity())/100;
     System.out.println(pidError);
-    this.climber.climberMotor.set(TalonFXControlMode.Position, 0);
+    this.climber.climberMotor.set(TalonFXControlMode.Position, Constants.CLIMBERTOTOPSETPOINT);
     climber.climberPistonOff();
   }
 
   @Override
   public boolean isFinished() {
     double encodervalue = this.climber.climberMotor.getSelectedSensorPosition();
-    return Math.abs(encodervalue) <= 1;
+    return Math.abs(encodervalue) <= Constants.CLIMBERTARGET;
   }
 }
