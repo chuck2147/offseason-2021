@@ -113,6 +113,23 @@ public final class Constants {
     public static final double VISION_ALIGN_D = 0.005;
     public static final double VISION_ALIGN_F = 0;
 
+    //CLIMBER PIDs
+    public static final double CLIMBER_ALL_UP_P = 0.185;
+    public static final double CLIMBER_ALL_UP_I = 0;
+    public static final double CLIMBER_ALL_UP_D = 0;
+    public static final double CLIMBER_ALL_UP_F = 0;
+
+
+    //CLIMBER ALL UP ENCODER CONSTANT
+    //TODO figure out the setpoint for the To Top command.
+    //TODO measure the climber target distance and plug that into varibale.
+    public static final double CLIMBERTARGET = 270000;
+    public static double climberSensorUnitsPerRotation = 2048;
+    public static double climberGearRatio = 1; 
+    public static double climberMaxRPM = 6380;
+    //Amount of sensor units per 100ms
+    public static double climberPeakSensorVelocity = (climberMaxRPM / 600) * (climberSensorUnitsPerRotation / climberGearRatio);
+
     public enum ClimberState {
         Down, Up, UpAll
     }

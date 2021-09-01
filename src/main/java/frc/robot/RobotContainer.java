@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlFrame;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -20,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ClimberState;
+import frc.robot.commands.ClimberToTopCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
@@ -58,8 +57,8 @@ public class RobotContainer {
   private final AxisTrigger runOperatorIndexerButton = new AxisTrigger(operatorController, 3);
   private final AxisTrigger runOperatorIndexerReverseButton = new AxisTrigger(operatorController, 2);
 
-  private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
-  private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
+  //private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
+  //private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
   private final JoystickButton faceTargetButton = driverController.getButton(Controller.Button.A);
   private final JoystickButton shooterDriverButton = driverController.getButton(Controller.Button.X);
   private final AxisTrigger runDriverIndexerButton = new AxisTrigger(driverController, 3);
@@ -90,6 +89,8 @@ public class RobotContainer {
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Up));
     driverController.getButton(Controller.Button.Start)
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Down));
+    driverController.getButton(Controller.Button.Y)
+    .whileHeld(new ClimberToTopCommand(climber, intake));
     //autoChooser.addOption("Shot Drive Back", new AutoShotDriveBack(drivetrain, shooter, indexer));
 
     // <<<INTERNAL Triggers are actions that happen without a joystick action needed and are always running when enabled.>>>
@@ -147,16 +148,16 @@ public class RobotContainer {
     intakeButton.whenReleased(intake::retractIntake, intake); 
     intakeButton.whenReleased(intake::stopIntake, intake);
 
-    climberUpButton.whenPressed(intake::extendIntake, intake);
-    climberUpButton.whileHeld(climber::runClimber, climber);
-      climberUpButton.whenPressed(climber::climberPistonOff, climber);
-      climberUpButton.whenReleased(climber::stopClimber, climber);
-      climberUpButton.whenReleased(climber::climberPistonOn, climber);
+    // climberUpButton.whenPressed(intake::extendIntake, intake);
+    // climberUpButton.whileHeld(climber::runClimber, climber);
+    //   climberUpButton.whenPressed(climber::climberPistonOff, climber);
+    //   climberUpButton.whenReleased(climber::stopClimber, climber);
+    //   climberUpButton.whenReleased(climber::climberPistonOn, climber);
 
-      climberDownButton.whileHeld(climber::reverseClimber, climber);
-      climberDownButton.whenPressed(climber::climberPistonOff, climber);
-      climberDownButton.whenReleased(climber::stopClimber, climber);
-      climberDownButton.whenReleased(climber::climberPistonOn, climber);
+    //   climberDownButton.whileHeld(climber::reverseClimber, climber);
+    //   climberDownButton.whenPressed(climber::climberPistonOff, climber);
+    //   climberDownButton.whenReleased(climber::stopClimber, climber);
+    //   climberDownButton.whenReleased(climber::climberPistonOn, climber);
 
   // <<<OPERATOR CONTROLLER>>> (If driver-controller automatic functions go wrong... 
   //Operator can overide driver-controller and run mechanisms manually...in/out up/down)
