@@ -57,8 +57,8 @@ public class RobotContainer {
   private final AxisTrigger runOperatorIndexerButton = new AxisTrigger(operatorController, 3);
   private final AxisTrigger runOperatorIndexerReverseButton = new AxisTrigger(operatorController, 2);
 
-  private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
-  private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
+  //private final JoystickButton climberUpButton = driverController.getButton(Controller.Button.Back);
+  //private final JoystickButton climberDownButton = driverController.getButton(Controller.Button.Start);  
   private final JoystickButton faceTargetButton = driverController.getButton(Controller.Button.A);
   private final JoystickButton shooterDriverButton = driverController.getButton(Controller.Button.X);
   private final AxisTrigger runDriverIndexerButton = new AxisTrigger(driverController, 3);
@@ -148,16 +148,16 @@ public class RobotContainer {
     intakeButton.whenReleased(intake::retractIntake, intake); 
     intakeButton.whenReleased(intake::stopIntake, intake);
 
-    climberUpButton.whenPressed(intake::extendIntake, intake);
-    climberUpButton.whileHeld(climber::runClimber, climber);
-      climberUpButton.whenPressed(climber::climberPistonOff, climber);
-      climberUpButton.whenReleased(climber::stopClimber, climber);
-      climberUpButton.whenReleased(climber::climberPistonOn, climber);
+    // climberUpButton.whenPressed(intake::extendIntake, intake);
+    // climberUpButton.whileHeld(climber::runClimber, climber);
+    //   climberUpButton.whenPressed(climber::climberPistonOff, climber);
+    //   climberUpButton.whenReleased(climber::stopClimber, climber);
+    //   climberUpButton.whenReleased(climber::climberPistonOn, climber);
 
-      climberDownButton.whileHeld(climber::reverseClimber, climber);
-      climberDownButton.whenPressed(climber::climberPistonOff, climber);
-      climberDownButton.whenReleased(climber::stopClimber, climber);
-      climberDownButton.whenReleased(climber::climberPistonOn, climber);
+    //   climberDownButton.whileHeld(climber::reverseClimber, climber);
+    //   climberDownButton.whenPressed(climber::climberPistonOff, climber);
+    //   climberDownButton.whenReleased(climber::stopClimber, climber);
+    //   climberDownButton.whenReleased(climber::climberPistonOn, climber);
 
   // <<<OPERATOR CONTROLLER>>> (If driver-controller automatic functions go wrong... 
   //Operator can overide driver-controller and run mechanisms manually...in/out up/down)

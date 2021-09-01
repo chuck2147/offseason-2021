@@ -31,7 +31,6 @@ public class ClimberCommand extends CommandBase {
   public void execute(){
     if (climberState == ClimberState.Down) {
       climber.reverseClimber();
-      climberMotor.configClearPositionOnLimitR(true, 100);
     } else if (climberState == ClimberState.Up) {
       climber.runClimber();
     } 
