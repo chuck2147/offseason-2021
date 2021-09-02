@@ -12,7 +12,6 @@ public class ClimberCommand extends CommandBase {
   private final ClimberSubsystem climber;
   private final IntakeSubsystem intake;
   private final Constants.ClimberState climberState;
-  private final TalonFX climberMotor = new TalonFX(Constants.CLIMB_MOTOR);
 
   public ClimberCommand(ClimberSubsystem climber, IntakeSubsystem intake, Constants.ClimberState climberState) {
     this.intake = intake;

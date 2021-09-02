@@ -25,8 +25,6 @@ public class ClimberToTopCommand extends CommandBase {
 
   @Override
   public void execute() {
-    double pidError = (Constants.climberPeakSensorVelocity - this.climber.climberMotor.getSelectedSensorVelocity())/100;
-    //System.out.println(pidError);
     this.climber.climberMotor.set(TalonFXControlMode.Position, Constants.CLIMBERTARGET);
     climber.climberPistonOff();
   }

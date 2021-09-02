@@ -34,13 +34,7 @@ public class ShooterSubsystem extends SubsystemBase {
     .withSize(2, 1)
     .withWidget(BuiltInWidgets.kTextView)
     .getEntry();
-    
-  private static double kF_lower = 0;
-	private static double kP_lower = 0;
-	private static double kI_lower = 0;
-	private static double kD_lower = 0;  
-  
-  private double targetVelocityUpper = 0; 
+
   private double targetVelocityLower = 0; 
   private int rollingAvg = 0;
   
@@ -89,7 +83,6 @@ public class ShooterSubsystem extends SubsystemBase {
   } 
   
   public void setVelocity(double velocityUpper, double velocityLower) {
-    targetVelocityUpper = velocityUpper;
     targetVelocityLower = velocityLower;
     upperMotor.set(TalonFXControlMode.Velocity, velocityUpper);
     lowerMotor.set(TalonFXControlMode.Velocity, velocityLower);
