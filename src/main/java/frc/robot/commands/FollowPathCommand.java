@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.math.Vector2;
+import frc.robot.math.Rotation2;
+import frc.robot.math.Vector2;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;

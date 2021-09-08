@@ -56,7 +56,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
 
-    compile project(':common')
     errorprone("com.google.errorprone:error_prone_core:2.3.3")
 
     // Enable simulation gui support. Must check the box in vscode to enable support

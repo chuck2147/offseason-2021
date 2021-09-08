@@ -8,9 +8,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
-import org.frcteam2910.common.kinematics.SwerveKinematics;
-import org.frcteam2910.common.kinematics.SwerveOdometry;
-import org.frcteam2910.common.math.RigidTransform2;
+import frc.robot.kinematics.SwerveKinematics;
+import frc.robot.kinematics.SwerveOdometry;
+import frc.robot.math.RigidTransform2;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -27,8 +27,8 @@ import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-import org.frcteam2910.common.math.Rotation2;
-import org.frcteam2910.common.math.Vector2;
+import frc.robot.math.Rotation2;
+import frc.robot.math.Vector2;
 
 public class SwerveDrivetrain extends SubsystemBase {
 
