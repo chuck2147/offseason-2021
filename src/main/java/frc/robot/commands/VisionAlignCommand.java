@@ -22,11 +22,21 @@ public class VisionAlignCommand extends CommandBase {
     return Math.abs(xTarget) <= 1;
   }
 
+  private static double getError() {
+    return Limelight.getTargetX();
+  }
+
   @Override
   public void execute() {
     double xTarget = Limelight.getTargetX();
     System.out.println(xTarget);
     double pidAngularVelocity = pid.calculate(0, -xTarget);
     drivetrain.drive(0, 0, pidAngularVelocity, true);
+  }
+
+  public static boolean isAligned() {
+    final var error = getError();
+    // If it is facing the goal and done rotating
+    return error < 0.1 && error != 0 && SwerveDrivetrain.getInstance().getAngularVelocity() < 0.5;
   }
 }

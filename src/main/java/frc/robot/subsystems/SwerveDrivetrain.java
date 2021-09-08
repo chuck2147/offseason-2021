@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
+import com.fasterxml.jackson.core.sym.Name;
 
 import frc.robot.kinematics.SwerveKinematics;
 import frc.robot.kinematics.SwerveOdometry;
@@ -15,6 +16,7 @@ import frc.robot.math.RigidTransform2;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -26,7 +28,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
+import frc.robot.drivers.NavX;
 import frc.robot.math.Rotation2;
 import frc.robot.math.Vector2;
 
@@ -57,7 +59,9 @@ public class SwerveDrivetrain extends SubsystemBase {
   private final NetworkTableEntry currentXEntry = currentPoseTable.getEntry("x");
   private final NetworkTableEntry currentYEntry = currentPoseTable.getEntry("y");
   private final NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
-
+  private static final SwerveDrivetrain instance;
+  private final NavX navX$sensorLock = new NavX(SPI.Port.kMXP);
+  
   // width and length are switched, we are too lazy to figure out which way it should be
   double length = 18;
   double width = 19.75;
@@ -95,6 +99,10 @@ public class SwerveDrivetrain extends SubsystemBase {
     new SwerveModuleMK3(new TalonFX(7), new TalonFX(8), new CANCoder(4), Rotation2d.fromDegrees(Constants.backRightOffset))  // Back Right
   };
 
+  static {
+    instance = new SwerveDrivetrain();
+  }
+
   public SwerveDrivetrain() {
    pigeon.setYaw(0, 100);  //gyro reset (angle deg, timeoutsMs)   
   }
@@ -105,6 +113,13 @@ public class SwerveDrivetrain extends SubsystemBase {
     return Rotation2d.fromDegrees(ypr[0]);
   }
 
+  public static SwerveDrivetrain getInstance() {
+    return instance;
+  }
+
+  public double getAngularVelocity() {
+        return navX$sensorLock.getRate();
+  }
   public Pose2d getPose() {
     return pose;
   }

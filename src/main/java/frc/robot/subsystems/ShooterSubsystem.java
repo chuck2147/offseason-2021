@@ -1,13 +1,16 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -20,6 +23,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final TalonFX upperMotor = new TalonFX(Constants.UPPER_SHOOTER_MOTOR);
   private final TalonFX lowerMotor = new TalonFX(Constants.LOWER_SHOOTER_MOTOR);
+  private boolean isRunning = false;
+  private ShooterDistances distance = ShooterDistances.BEHIND_TRENCH;
+  private int lower = 0;
+  private int upper = 0;
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable shooterTable = nt.getTable("/shooter");
+  private final NetworkTableEntry upperErrorEntry = shooterTable.getEntry("error/upper");
+  private final NetworkTableEntry lowerErrorEntry = shooterTable.getEntry("error/lower");
+
+  public enum ShooterDistances {
+    BEHIND_TRENCH, FRONT_OF_TRENCH, BEHIND_LINE
+  }
 
   ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
   NetworkTableEntry upperVelocityGraphEntry = tab.add("Upper Current Velocity Graph", 0)
@@ -68,6 +83,26 @@ public class ShooterSubsystem extends SubsystemBase {
     new PIDNTValue(Constants.LOWER_SHOOTER_P, Constants.LOWER_SHOOTER_I, Constants.LOWER_SHOOTER_D, Constants.LOWER_SHOOTER_F, lowerMotor, "Lower Shooter"); 
   }
 
+  public static double encToRPM(double enc) {
+    return enc / 100 * 1000 / 2048 * 60;
+  }
+
+  public static double RPMToEnc(double rpm) {
+    return rpm * 100 / 1000 * 2048 / 60;
+  }
+  
+  public boolean isAtSpeed() {
+    final var lowerError = encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower;
+    final var upperError = encToRPM(upperMotor.getSelectedSensorVelocity()) - upper;
+    upperErrorEntry.setDouble(upperError);
+    lowerErrorEntry.setDouble(lowerError);
+    return Math.abs(lowerError) < 50 && Math.abs(upperError) < 50;
+  }
+
+  public void run(ShooterDistances distance) {
+    isRunning = true;
+    this.distance = distance;
+  }
 
   public void stopShooter() {
     upperMotor.set(ControlMode.PercentOutput, 0);
@@ -132,6 +167,33 @@ public class ShooterSubsystem extends SubsystemBase {
  
   @Override
   public void periodic() {
+    lower = 0;
+    upper = 0;
+    if (isRunning) {
+      if (distance == ShooterDistances.BEHIND_LINE) {
+        upper = Constants.isPractice ? -0 : -3000;
+        lower = Constants.isPractice ? 5250 : 2000;
+      } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
+        upper = Constants.isPractice ? -4875 : -2300;
+        lower = Constants.isPractice ? 3920 : 3100;
+      } else if (distance == ShooterDistances.BEHIND_TRENCH) {
+        upper = Constants.isPractice ? -5190 : -4500;
+
+        lower = Constants.isPractice ? 3920 : 3500;
+
+      }
+
+      if (upper == 0) {
+        upperMotor.set(ControlMode.PercentOutput, 0);
+      }
+      lowerMotor.set(ControlMode.Velocity, RPMToEnc(lower), DemandType.ArbitraryFeedForward, lower * (.65 / 3920));
+      upperMotor.set(ControlMode.Velocity, RPMToEnc(upper), DemandType.ArbitraryFeedForward, upper * (.65 / 3920));
+    } else {
+      upperMotor.set(ControlMode.PercentOutput, 0);
+      lowerMotor.set(ControlMode.PercentOutput, 0);
+    }
+    isRunning = false;
+
     if (isOnTarget()) {
       if(rollingAvg < 10) {
         rollingAvg++;
