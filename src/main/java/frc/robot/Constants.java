@@ -19,9 +19,6 @@ import edu.wpi.first.wpilibj.Filesystem;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    private static final File isPracticeFile = new File(
-        Filesystem.getOperatingDirectory().toPath().resolve("isPractice").toString());
-    public static final boolean isPractice = isPracticeFile.exists();
     
 	//SWERVE OFFSETS
 	public static double frontLeftOffset = 65; 

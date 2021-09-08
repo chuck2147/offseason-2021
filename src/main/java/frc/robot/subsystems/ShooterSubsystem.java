@@ -169,29 +169,6 @@ public class ShooterSubsystem extends SubsystemBase {
   public void periodic() {
     lower = 0;
     upper = 0;
-    if (isRunning) {
-      if (distance == ShooterDistances.BEHIND_LINE) {
-        upper = Constants.isPractice ? -0 : -3000;
-        lower = Constants.isPractice ? 5250 : 2000;
-      } else if (distance == ShooterDistances.FRONT_OF_TRENCH) {
-        upper = Constants.isPractice ? -4875 : -2300;
-        lower = Constants.isPractice ? 3920 : 3100;
-      } else if (distance == ShooterDistances.BEHIND_TRENCH) {
-        upper = Constants.isPractice ? -5190 : -4500;
-
-        lower = Constants.isPractice ? 3920 : 3500;
-
-      }
-
-      if (upper == 0) {
-        upperMotor.set(ControlMode.PercentOutput, 0);
-      }
-      lowerMotor.set(ControlMode.Velocity, RPMToEnc(lower), DemandType.ArbitraryFeedForward, lower * (.65 / 3920));
-      upperMotor.set(ControlMode.Velocity, RPMToEnc(upper), DemandType.ArbitraryFeedForward, upper * (.65 / 3920));
-    } else {
-      upperMotor.set(ControlMode.PercentOutput, 0);
-      lowerMotor.set(ControlMode.PercentOutput, 0);
-    }
     isRunning = false;
 
     if (isOnTarget()) {
