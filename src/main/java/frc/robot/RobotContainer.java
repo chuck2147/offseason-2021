@@ -24,8 +24,6 @@ import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.VisionAlignCommand;
 import frc.robot.commands.autonomous.DriveForward;
-import frc.robot.commands.autonomous.Steal2Auto;
-import frc.robot.commands.autonomous.TestPathAuto;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -79,10 +77,8 @@ public class RobotContainer {
     configureButtonBindings();   
 
     autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
-    autoChooser.addOption("Test Path (not for matches)", new TestPathAuto(drivetrain));
     autoChooser.setDefaultOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
-    autoChooser.addOption("Steal 2", new Steal2Auto(drivetrain, shooter, indexer, intake));
-    
+
     SmartDashboard.putData("Auto Selector", autoChooser); 
   }
 
