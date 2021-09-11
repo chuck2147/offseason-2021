@@ -40,7 +40,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
+  private final SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final IndexerSubsystem indexer = new IndexerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
