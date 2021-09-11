@@ -22,14 +22,13 @@ public class FollowPathCommand extends CommandBase {
   private final String pathName;
 
   private final double translation_kF_x = 0.006735;
-  private final double translation_kF_y = 0.0072;
-  private final double translation_kP = 0.064;
+  private final double translation_kF_y = 0.02;
+  private final double translation_kP = 0.0;
   private final double translation_kI = 0.0;
   private final double translation_kD = 0.0;
 
   private final double rotation_kF = 0.013;
-  // private final double rotation_kP = 0.04;
-  private final double rotation_kP = 0.010;
+  private final double rotation_kP = 0.0;
   private final double rotation_kI = 0.0;
   private final double rotation_kD = 0.0;
   private final PIDController pid_x = new PIDController(translation_kP, translation_kI, translation_kD);
@@ -108,14 +107,15 @@ public class FollowPathCommand extends CommandBase {
 
     final var feedForwardTranslationVector = new Vector2(betweenPoint.velocity.x, betweenPoint.velocity.y)
             .multiply(translation_kF_x, translation_kF_y);
-    final var translationVector = feedForwardTranslationVector.add(
-            pid_x.calculate(currentPose.getX(), betweenPoint.x),
-            pid_y.calculate(currentPose.getY(), betweenPoint.y));
-
+    // final var translationVector = feedForwardTranslationVector.add(
+    //         pid_x.calculate(currentPose.getX(), betweenPoint.x),
+    //         pid_y.calculate(currentPose.getY(), betweenPoint.y));
+    final var translationVector = feedForwardTranslationVector;
+    System.out.println(currentPose);
     final var rotationPidResult = pid_rotation.calculate(currentPose.getRotation().getRadians(), betweenPoint.angle);
     final var rotationResult = betweenPoint.angularVelocity * rotation_kF + rotationPidResult;
 
-    // drivetrain.drive(translationVector.x, translationVector.y, rotationResult, true);
+    drivetrain.drive(translationVector.y, translationVector.x, rotationResult, true);
   }
 
   @Override

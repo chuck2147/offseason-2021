@@ -45,7 +45,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   PigeonIMU pigeon = new PigeonIMU(20);  //CAN Id for gyro
   int _loopCount = 0;
   private Pose2d pose = new Pose2d();
-  private final double SCALE = 100 / 2.54;
+  private final double SCALE = 100 / 2.54; // inches <-> meters
   private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable currentPoseTable = nt.getTable("/pathFollowing/current");
   private final NetworkTableEntry currentXEntry = currentPoseTable.getEntry("x");
@@ -53,9 +53,9 @@ public class SwerveDrivetrain extends SubsystemBase {
   private final NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
   private static final SwerveDrivetrain instance;
   
-  // width and length are switched, we are too lazy to figure out which way it should be
-  double length = 18;
-  double width = 19.75;
+  double length = 19.75;
+  double width = 18;
+
   
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
     // Locations for the swerve drive modules relative to the robot center. 
@@ -125,7 +125,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     final var translation = pose.getTranslation().times(SCALE);
     final var rotation = pose.getRotation().rotateBy(new Rotation2d(Math.PI / 2));
 
-    return new Pose2d(-translation.getY(), translation.getX(), rotation.times(-1));
+    return new Pose2d(-translation.getY(), translation.getX(), rotation);
   }
 
   public void resetPose(Vector2 translation, Rotation2 angle) {
@@ -183,7 +183,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     if (states != null) {
-      pose = odometry.update(getYaw(), states);
+      pose = odometry.update(getYaw().times(-1), states);
       updatePoseNT();
     }
   }

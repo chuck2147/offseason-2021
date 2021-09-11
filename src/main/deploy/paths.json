@@ -2,8 +2,8 @@
   "Start line towards trench and shoot 3": {
     "waypoints": [
       {
-        "x": 267.74622674698435,
-        "y": 490.06510434701977,
+        "x": 264.80734340973015,
+        "y": 495.9416690495081,
         "heading": -65.89339719729894,
         "handleBeforeLength": 20,
         "handleAfterLength": 40.774286257996
@@ -26,6 +26,36 @@
         "afterWaypoint": 0,
         "t": 0.9980000000000008,
         "angle": 1.8508104855071934
+      }
+    ]
+  },
+  "Test Measurement Path": {
+    "waypoints": [
+      {
+        "x": 308.89059346854384,
+        "y": 438.15544947504,
+        "heading": 90,
+        "handleBeforeLength": 19.58854900829425,
+        "handleAfterLength": 25.54037389399978
+      },
+      {
+        "x": 309.87022124762865,
+        "y": 493.00338669826397,
+        "heading": 90,
+        "handleBeforeLength": 20,
+        "handleAfterLength": 25.465113710782475
+      }
+    ],
+    "angles": [
+      {
+        "afterWaypoint": 0,
+        "t": 0.1,
+        "angle": 1.5707963267948966
+      },
+      {
+        "afterWaypoint": 0,
+        "t": 0.9,
+        "angle": 1.5707963267948966
       }
     ]
   }
