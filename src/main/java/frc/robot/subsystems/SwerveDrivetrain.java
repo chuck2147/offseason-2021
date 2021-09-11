@@ -90,6 +90,8 @@ public class SwerveDrivetrain extends SubsystemBase {
     new SwerveModuleMK3(new TalonFX(7), new TalonFX(8), new CANCoder(4), Rotation2d.fromDegrees(Constants.backRightOffset))  // Back Right
   };
 
+  SwerveModuleState[] states;
+
   static {
     instance = new SwerveDrivetrain();
   }
@@ -141,6 +143,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   }
   private void updatePoseNT() {
     final var pose = getScaledPose();
+    System.out.println(pose.getX());
 
     currentAngleEntry.setDouble(pose.getRotation().getRadians());
     currentXEntry.setDouble(pose.getX());
@@ -162,8 +165,7 @@ public class SwerveDrivetrain extends SubsystemBase {
    */
   
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-
-    SwerveModuleState[] states =
+    states =
       kinematics.toSwerveModuleStates(
         fieldRelative
           ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getYaw().times(-1)) 
@@ -178,7 +180,10 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (states != null) {
+      odometry.update(getYaw(), states);
+      updatePoseNT();
+    }
   }
 
   @Override

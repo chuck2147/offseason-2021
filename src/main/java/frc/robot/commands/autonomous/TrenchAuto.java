@@ -18,23 +18,9 @@ public class TrenchAuto extends SequentialCommandGroup {
 
         addCommands(
                 // Drive from the starting line to the aiming spot while spinning up the shooter
-                new FollowPathCommand(drive, "Start line towards trench and shoot 3")
-                        .deadlineWith(new RunCommand(() -> shooter.shootFromBehindLine(), shooter)),
-                // Fold down intake
-                new InstantCommand(intake::extendIntake),
+                new FollowPathCommand(drive, "Start line towards trench and shoot 3"),
                 // Pew pew
-                new AutonomousAlignShootCommand(drive, shooter, indexer),
-                // Run the intake continuously while driving and grabbing 3 trench balls
-                new FollowPathCommand(drive, "Aim to 3 from trench").deadlineWith(new RunCommand(intake::runIntake)),
-                // Drive back to aiming spot while spinning up the shooter again
-                new FollowPathCommand(drive, "3 from trench to aim")
-                        .deadlineWith(new RunCommand(() -> shooter.shootFromBehindLine(), shooter)),
-                // Pew pew
-                new AutonomousAlignShootCommand(drive, shooter, indexer),
-                // Fold up intake
-                new InstantCommand(intake::retractIntake),
-                // Stop intake wheels
-                new InstantCommand(intake::stopIntake));
+                new AutonomousAlignShootCommand(drive, shooter, indexer));
     }
 
 }
