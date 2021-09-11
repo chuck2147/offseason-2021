@@ -4,10 +4,6 @@
 
 package frc.robot;
 
-import java.io.File;
-
-import edu.wpi.first.wpilibj.Filesystem;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
  * numerical or boolean constants. This class should not be used for any other

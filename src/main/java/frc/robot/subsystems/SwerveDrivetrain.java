@@ -52,7 +52,6 @@ public class SwerveDrivetrain extends SubsystemBase {
   private final NetworkTableEntry currentYEntry = currentPoseTable.getEntry("y");
   private final NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
   private static final SwerveDrivetrain instance;
-  double[] angularVelocities = new double[3];
   
   // width and length are switched, we are too lazy to figure out which way it should be
   double length = 18;
@@ -110,6 +109,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   }
 
   public double getAngularVelocity() {
+    double[] angularVelocities = new double[3];
     pigeon.getRawGyro(angularVelocities); 
     return angularVelocities[2];
   }
