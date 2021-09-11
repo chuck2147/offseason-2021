@@ -4,16 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.ErrorCode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
-import com.ctre.phoenix.sensors.PigeonIMU.PigeonState;
-import com.fasterxml.jackson.core.sym.Name;
-
-import frc.robot.kinematics.SwerveKinematics;
-import frc.robot.kinematics.SwerveOdometry;
-import frc.robot.math.RigidTransform2;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;

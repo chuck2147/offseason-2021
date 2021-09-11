@@ -9,7 +9,6 @@ import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ShooterSubsystem.ShooterDistances;
 
 public class TrenchAuto extends SequentialCommandGroup {
 
