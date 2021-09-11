@@ -76,8 +76,11 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new SwerveDriveCommand(drivetrain, driverController));
     configureButtonBindings();   
 
+    autoChooser.addDefaultOption("Shoot and Drive Forward", new ShootandDriveForward(drivetrain, shooter, indexer));
     autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
-    autoChooser.setDefaultOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    autoChooser.setOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    
+    
 
     SmartDashboard.putData("Auto Selector", autoChooser); 
   }
