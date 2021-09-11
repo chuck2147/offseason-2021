@@ -137,4 +137,7 @@ public final class Constants {
         Down, Up, UpAll
     }
 	
+    public enum FaceFieldState {
+        Front, Back, Left, Right
+    }
 }

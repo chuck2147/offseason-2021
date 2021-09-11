@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ClimberState;
+import frc.robot.Constants.FaceFieldState;
 import frc.robot.commands.ClimberToTopCommand;
+import frc.robot.commands.FaceFieldCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
@@ -97,6 +99,11 @@ public class RobotContainer {
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Down));
     driverController.getButton(Controller.Button.Y)
     .whileHeld(new ClimberToTopCommand(climber, intake));
+
+    driverController.getButton(Controller.Button.LeftBumper)
+    .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Front));
+    driverController.getButton(Controller.Button.RightBumper)
+    .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Back));
     //autoChooser.addOption("Shot Drive Back", new AutoShotDriveBack(drivetrain, shooter, indexer));
 
     // <<<INTERNAL Triggers are actions that happen without a joystick action needed and are always running when enabled.>>>

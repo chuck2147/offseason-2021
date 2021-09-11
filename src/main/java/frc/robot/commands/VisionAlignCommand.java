@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.ctre.phoenix.sensors.PigeonIMU;
+
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -37,6 +39,6 @@ public class VisionAlignCommand extends CommandBase {
   public static boolean isAligned() {
     final var error = getError();
     // If it is facing the goal and done rotating
-    return error < 0.1 && error != 0 && SwerveDrivetrain.getInstance().getAngularVelocity() < 0.5;
+    return error < 0.1 && error != 0 && SwerveDrivetrain.getInstance().getAngularVelocityRotation2d() < 0.5;
   }
 }
