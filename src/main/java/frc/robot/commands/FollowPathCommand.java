@@ -115,7 +115,7 @@ public class FollowPathCommand extends CommandBase {
     final var rotationPidResult = pid_rotation.calculate(currentPose.getRotation().getRadians(), betweenPoint.angle);
     final var rotationResult = betweenPoint.angularVelocity * rotation_kF + rotationPidResult;
 
-    drivetrain.drive(translationVector.x, translationVector.y, rotationResult, true);
+    // drivetrain.drive(translationVector.x, translationVector.y, rotationResult, true);
   }
 
   @Override

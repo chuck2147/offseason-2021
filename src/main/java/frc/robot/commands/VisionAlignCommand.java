@@ -35,6 +35,7 @@ public class VisionAlignCommand extends CommandBase {
   public static boolean isAligned() {
     final var error = getError();
     // If it is facing the goal and done rotating
+    System.out.println(error);
     return error < 0.1 && error != 0 && SwerveDrivetrain.getInstance().getAngularVelocity() < 0.5;
   }
 }

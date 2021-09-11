@@ -24,6 +24,7 @@ import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.VisionAlignCommand;
 import frc.robot.commands.autonomous.DriveForward;
+import frc.robot.commands.autonomous.ShootAndDriveForward;
 import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
@@ -76,9 +77,9 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new SwerveDriveCommand(drivetrain, driverController));
     configureButtonBindings();   
 
-    autoChooser.addDefaultOption("Shoot and Drive Forward", new ShootandDriveForward(drivetrain, shooter, indexer));
+    autoChooser.setDefaultOption("Shoot and Drive Forward", new ShootAndDriveForward(drivetrain, shooter, indexer));
     autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
-    autoChooser.setOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    autoChooser.addOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
     
     
 

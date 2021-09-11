@@ -45,7 +45,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   PigeonIMU pigeon = new PigeonIMU(20);  //CAN Id for gyro
   int _loopCount = 0;
   private Pose2d pose = new Pose2d();
-  private final double SCALE = 1;
+  private final double SCALE = 100 / 2.54;
   private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private final NetworkTable currentPoseTable = nt.getTable("/pathFollowing/current");
   private final NetworkTableEntry currentXEntry = currentPoseTable.getEntry("x");
@@ -116,7 +116,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     return angularVelocities[2];
   }
 
-  public Pose2d getPose() {
+  private Pose2d getPose() {
     return pose;
   }
   
@@ -125,7 +125,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     final var translation = pose.getTranslation().times(SCALE);
     final var rotation = pose.getRotation().rotateBy(new Rotation2d(Math.PI / 2));
 
-    return new Pose2d(translation, rotation);
+    return new Pose2d(-translation.getY(), translation.getX(), rotation.times(-1));
   }
 
   public void resetPose(Vector2 translation, Rotation2 angle) {
@@ -133,7 +133,9 @@ public class SwerveDrivetrain extends SubsystemBase {
     resetGyroAngle(angle);
     odometry.resetPosition(
       new Pose2d(
-        new Translation2d(translation.x / SCALE, translation.y / SCALE),
+        //coordinates switched x is forward, y is left and right.
+        // Converting to unit system of path following which uses x for right and left
+        new Translation2d(translation.y / SCALE, -translation.x / SCALE),
         new Rotation2d(angle.toRadians())
       ),
       getYaw()
@@ -143,7 +145,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   }
   private void updatePoseNT() {
     final var pose = getScaledPose();
-    System.out.println(pose.getX());
+    // System.out.println(pose);
 
     currentAngleEntry.setDouble(pose.getRotation().getRadians());
     currentXEntry.setDouble(pose.getX());
@@ -181,7 +183,7 @@ public class SwerveDrivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     if (states != null) {
-      odometry.update(getYaw(), states);
+      pose = odometry.update(getYaw(), states);
       updatePoseNT();
     }
   }

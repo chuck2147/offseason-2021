@@ -16,12 +16,12 @@ public class DriveForward extends CommandBase {
 
     @Override
     public void initialize() {
-        endTime = Timer.getFPGATimestamp() + 1;
+        endTime = Timer.getFPGATimestamp() + 1.5;
     }
 
     @Override
     public void execute() {
-        m_driveSubsystem.drive(0, 0.5,  0, false);
+        m_driveSubsystem.drive(0.5, 0,  0, false);
     }
 
     @Override
