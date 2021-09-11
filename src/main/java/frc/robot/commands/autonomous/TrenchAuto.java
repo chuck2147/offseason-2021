@@ -20,7 +20,7 @@ public class TrenchAuto extends SequentialCommandGroup {
         addCommands(
                 // Drive from the starting line to the aiming spot while spinning up the shooter
                 new FollowPathCommand(drive, "Start line towards trench and shoot 3")
-                        .deadlineWith(new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter)),
+                        .deadlineWith(new RunCommand(() -> shooter.shootFromBehindLine(), shooter)),
                 // Fold down intake
                 new InstantCommand(intake::extendIntake),
                 // Pew pew
@@ -29,7 +29,7 @@ public class TrenchAuto extends SequentialCommandGroup {
                 new FollowPathCommand(drive, "Aim to 3 from trench").deadlineWith(new RunCommand(intake::runIntake)),
                 // Drive back to aiming spot while spinning up the shooter again
                 new FollowPathCommand(drive, "3 from trench to aim")
-                        .deadlineWith(new RunCommand(() -> shooter.run(ShooterDistances.BEHIND_LINE), shooter)),
+                        .deadlineWith(new RunCommand(() -> shooter.shootFromBehindLine(), shooter)),
                 // Pew pew
                 new AutonomousAlignShootCommand(drive, shooter, indexer),
                 // Fold up intake
