@@ -100,10 +100,10 @@ public class RobotContainer {
     driverController.getButton(Controller.Button.Y)
     .whileHeld(new ClimberToTopCommand(climber, intake));
 
-    driverController.getButton(Controller.Button.LeftBumper)
-    .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Front));
-    driverController.getButton(Controller.Button.RightBumper)
-    .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Back));
+    // driverController.getButton(Controller.Button.LeftBumper)
+    // .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Front));
+    // driverController.getButton(Controller.Button.RightBumper)
+    // .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Back));
     //autoChooser.addOption("Shot Drive Back", new AutoShotDriveBack(drivetrain, shooter, indexer));
 
     // <<<INTERNAL Triggers are actions that happen without a joystick action needed and are always running when enabled.>>>
