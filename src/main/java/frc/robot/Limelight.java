@@ -6,7 +6,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Limelight {
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    private static NetworkTableEntry camMode = table.getEntry("camMode");
     private static NetworkTableEntry ledMode = table.getEntry("ledMode");
 
     public static void enableTracking() {

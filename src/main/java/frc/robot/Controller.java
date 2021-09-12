@@ -15,7 +15,7 @@ public class Controller extends XboxController {
     Button(int port) {
       this.port = port;
     }
-    int port;
+    final int port;
   }
 
   public JoystickButton getButton(Button button) {

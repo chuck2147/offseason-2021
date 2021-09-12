@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
@@ -25,8 +24,6 @@ public class ClimberToTopCommand extends CommandBase {
 
   @Override
   public void execute() {
-    double pidError = (Constants.climberPeakSensorVelocity - this.climber.climberMotor.getSelectedSensorVelocity())/100;
-    //System.out.println(pidError);
     this.climber.climberMotor.set(TalonFXControlMode.Position, Constants.CLIMBERTARGET);
     climber.climberPistonOff();
   }

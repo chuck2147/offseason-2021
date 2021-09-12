@@ -1,6 +1,6 @@
-package org.frcteam2910.common.math;
+package frc.robot.math;
 
-import org.frcteam2910.common.util.Interpolable;
+import frc.robot.util.Interpolable;
 
 import java.io.Serializable;
 import java.text.DecimalFormat;

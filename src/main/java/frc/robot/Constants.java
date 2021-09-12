@@ -15,7 +15,7 @@ package frc.robot;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
+    
 	//SWERVE OFFSETS
 	public static double frontLeftOffset = 65; 
 	public static double frontRightOffset = -18;
@@ -122,7 +122,6 @@ public final class Constants {
 
     //CLIMBER ALL UP ENCODER CONSTANT
     //TODO figure out the setpoint for the To Top command.
-    //TODO measure the climber target distance and plug that into varibale.
     public static final double CLIMBERTARGET = 270000;
     public static double climberSensorUnitsPerRotation = 2048;
     public static double climberGearRatio = 1; 
@@ -134,4 +133,7 @@ public final class Constants {
         Down, Up, UpAll
     }
 	
+    public enum FaceFieldState {
+        Front, Back, Left, Right
+    }
 }

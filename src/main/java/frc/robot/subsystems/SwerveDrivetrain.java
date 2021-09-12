@@ -8,15 +8,21 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoder;
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.math.Rotation2;
+import frc.robot.math.Vector2;
 
 public class SwerveDrivetrain extends SubsystemBase {
 
@@ -38,10 +44,18 @@ public class SwerveDrivetrain extends SubsystemBase {
 
   PigeonIMU pigeon = new PigeonIMU(20);  //CAN Id for gyro
   int _loopCount = 0;
+  private Pose2d pose = new Pose2d();
+  private final double SCALE = 100 / 2.54; // inches <-> meters
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable currentPoseTable = nt.getTable("/pathFollowing/current");
+  private final NetworkTableEntry currentXEntry = currentPoseTable.getEntry("x");
+  private final NetworkTableEntry currentYEntry = currentPoseTable.getEntry("y");
+  private final NetworkTableEntry currentAngleEntry = currentPoseTable.getEntry("angle");
+  private static final SwerveDrivetrain instance;
+  
+  double length = 19.75;
+  double width = 18;
 
-  // width and length are switched, we are too lazy to figure out which way it should be
-  double length = 18;
-  double width = 19.75;
   
   private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
     // Locations for the swerve drive modules relative to the robot center. 
@@ -65,7 +79,8 @@ public class SwerveDrivetrain extends SubsystemBase {
     )
   );
 
- 
+  SwerveDriveOdometry odometry = new SwerveDriveOdometry(kinematics,
+    getYaw(), new Pose2d(5.0, 13.5, new Rotation2d()));
   // TODO: Update these CAN device IDs to match your TalonFX + CANCoder device IDs
   // TODO: Update module offsets to match your CANCoder offsets
   private SwerveModuleMK3[] modules = new SwerveModuleMK3[] {
@@ -75,17 +90,73 @@ public class SwerveDrivetrain extends SubsystemBase {
     new SwerveModuleMK3(new TalonFX(7), new TalonFX(8), new CANCoder(4), Rotation2d.fromDegrees(Constants.backRightOffset))  // Back Right
   };
 
+  SwerveModuleState[] states;
+
+  static {
+    instance = new SwerveDrivetrain();
+  }
+
   public SwerveDrivetrain() {
    pigeon.setYaw(0, 100);  //gyro reset (angle deg, timeoutsMs)   
   }
   
-  public double getYaw(){
+  public Rotation2d getYaw() {
     double[] ypr = new double[3];
     pigeon.getYawPitchRoll(ypr);
-    return ypr[0];
+    return Rotation2d.fromDegrees(ypr[0]);
   }
 
+  public static SwerveDrivetrain getInstance() {
+    return instance;
+  }
 
+  public double getAngularVelocity() {
+    double[] angularVelocities = new double[3];
+    pigeon.getRawGyro(angularVelocities); 
+    return angularVelocities[2];
+  }
+
+  private Pose2d getPose() {
+    return pose;
+  }
+  
+  public Pose2d getScaledPose() {
+    final var pose = getPose();
+    final var translation = pose.getTranslation().times(SCALE);
+    final var rotation = pose.getRotation().rotateBy(new Rotation2d(Math.PI / 2));
+
+    return new Pose2d(-translation.getY(), translation.getX(), rotation);
+  }
+
+  public void resetPose(Vector2 translation, Rotation2 angle) {
+    System.out.println("Reset Pose");
+    resetGyroAngle(angle);
+    odometry.resetPosition(
+      new Pose2d(
+        //coordinates switched x is forward, y is left and right.
+        // Converting to unit system of path following which uses x for right and left
+        new Translation2d(translation.y / SCALE, -translation.x / SCALE),
+        new Rotation2d(angle.toRadians())
+      ),
+      getYaw()
+    );
+    pose = odometry.getPoseMeters();
+    updatePoseNT();
+  }
+  private void updatePoseNT() {
+    final var pose = getScaledPose();
+    // System.out.println(pose);
+
+    currentAngleEntry.setDouble(pose.getRotation().getRadians());
+    currentXEntry.setDouble(pose.getX());
+    currentYEntry.setDouble(pose.getY());
+
+  }
+
+  public void resetGyroAngle(Rotation2 angle) {
+    System.out.println("Reset Gyro Angle");
+    pigeon.setYaw(angle.toDegrees(), 100);  //gyro reset (angle deg, timeoutsMs)   
+  }
   /**
    * Method to drive the robot using joystick info.
    *
@@ -96,32 +167,25 @@ public class SwerveDrivetrain extends SubsystemBase {
    */
   
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
-
-    // var modules = new SwerveModuleMK3[] {
-    //   new SwerveModuleMK3(new TalonFX(1), new TalonFX(2), new CANCoder(1), Rotation2d.fromDegrees(Constants.frontLeftOffset.value)), // Front Left
-    //   new SwerveModuleMK3(new TalonFX(3), new TalonFX(4), new CANCoder(2), Rotation2d.fromDegrees(Constants.frontRightOffset.value)), // Front Right
-    //   new SwerveModuleMK3(new TalonFX(5), new TalonFX(6), new CANCoder(3), Rotation2d.fromDegrees(Constants.backLeftOffset.value)), // Back Left
-    //   new SwerveModuleMK3(new TalonFX(7), new TalonFX(8), new CANCoder(4), Rotation2d.fromDegrees(Constants.backRightOffset.value))  // Back Right
-    // };
-
-    SwerveModuleState[] states =
+    states =
       kinematics.toSwerveModuleStates(
         fieldRelative
-          ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, Rotation2d.fromDegrees(-getYaw())) 
+          ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getYaw().times(-1)) 
           : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.normalizeWheelSpeeds(states, kMaxSpeed);
     for (int i = 0; i < states.length; i++) {
       SwerveModuleMK3 module = modules[i];
       SwerveModuleState state = states[i];
       module.setDesiredState(state);
-
-      SmartDashboard.putNumber("gyro Angle", getYaw());
     }
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    if (states != null) {
+      pose = odometry.update(getYaw().times(-1), states);
+      updatePoseNT();
+    }
   }
 
   @Override

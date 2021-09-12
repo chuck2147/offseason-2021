@@ -7,7 +7,9 @@ import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -20,6 +22,18 @@ public class ShooterSubsystem extends SubsystemBase {
 
   private final TalonFX upperMotor = new TalonFX(Constants.UPPER_SHOOTER_MOTOR);
   private final TalonFX lowerMotor = new TalonFX(Constants.LOWER_SHOOTER_MOTOR);
+  private boolean isRunning = false;
+  private ShooterDistances distance = ShooterDistances.BEHIND_TRENCH;
+  private int lower = 0;
+  private int upper = 0;
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable shooterTable = nt.getTable("/shooter");
+  private final NetworkTableEntry upperErrorEntry = shooterTable.getEntry("error/upper");
+  private final NetworkTableEntry lowerErrorEntry = shooterTable.getEntry("error/lower");
+
+  public enum ShooterDistances {
+    BEHIND_TRENCH, FRONT_OF_TRENCH, BEHIND_LINE
+  }
 
   ShuffleboardTab tab = Shuffleboard.getTab("NTValues");
   NetworkTableEntry upperVelocityGraphEntry = tab.add("Upper Current Velocity Graph", 0)
@@ -34,13 +48,7 @@ public class ShooterSubsystem extends SubsystemBase {
     .withSize(2, 1)
     .withWidget(BuiltInWidgets.kTextView)
     .getEntry();
-    
-  private static double kF_lower = 0;
-	private static double kP_lower = 0;
-	private static double kI_lower = 0;
-	private static double kD_lower = 0;  
-  
-  private double targetVelocityUpper = 0; 
+
   private double targetVelocityLower = 0; 
   private int rollingAvg = 0;
   
@@ -74,6 +82,26 @@ public class ShooterSubsystem extends SubsystemBase {
     new PIDNTValue(Constants.LOWER_SHOOTER_P, Constants.LOWER_SHOOTER_I, Constants.LOWER_SHOOTER_D, Constants.LOWER_SHOOTER_F, lowerMotor, "Lower Shooter"); 
   }
 
+  public static double encToRPM(double enc) {
+    return enc / 100 * 1000 / 2048 * 60;
+  }
+
+  public static double RPMToEnc(double rpm) {
+    return rpm * 100 / 1000 * 2048 / 60;
+  }
+  
+  public boolean isAtSpeed() {
+    final var lowerError = encToRPM(lowerMotor.getSelectedSensorVelocity()) - lower;
+    final var upperError = encToRPM(upperMotor.getSelectedSensorVelocity()) - upper;
+    upperErrorEntry.setDouble(upperError);
+    lowerErrorEntry.setDouble(lowerError);
+    return Math.abs(lowerError) < 50 && Math.abs(upperError) < 50;
+  }
+
+  public void run(ShooterDistances distance) {
+    isRunning = true;
+    this.distance = distance;
+  }
 
   public void stopShooter() {
     upperMotor.set(ControlMode.PercentOutput, 0);
@@ -89,7 +117,6 @@ public class ShooterSubsystem extends SubsystemBase {
   } 
   
   public void setVelocity(double velocityUpper, double velocityLower) {
-    targetVelocityUpper = velocityUpper;
     targetVelocityLower = velocityLower;
     upperMotor.set(TalonFXControlMode.Velocity, velocityUpper);
     lowerMotor.set(TalonFXControlMode.Velocity, velocityLower);
@@ -139,6 +166,10 @@ public class ShooterSubsystem extends SubsystemBase {
  
   @Override
   public void periodic() {
+    lower = 0;
+    upper = 0;
+    isRunning = false;
+
     if (isOnTarget()) {
       if(rollingAvg < 10) {
         rollingAvg++;

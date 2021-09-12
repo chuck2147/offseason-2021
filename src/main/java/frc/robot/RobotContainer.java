@@ -23,6 +23,9 @@ import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.IndexerTriggeredCommand;
 import frc.robot.commands.SwerveDriveCommand;
 import frc.robot.commands.VisionAlignCommand;
+import frc.robot.commands.autonomous.DriveForward;
+import frc.robot.commands.autonomous.ShootAndDriveForward;
+import frc.robot.commands.autonomous.TrenchAuto;
 import frc.robot.subsystems.ClimberSubsystem;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -38,7 +41,7 @@ import frc.robot.subsystems.SwerveDrivetrain;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
+  private final SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
   private final ShooterSubsystem shooter = new ShooterSubsystem();
   private final IndexerSubsystem indexer = new IndexerSubsystem();
   private final IntakeSubsystem intake = new IntakeSubsystem();
@@ -73,6 +76,13 @@ public class RobotContainer {
   public RobotContainer() {
     drivetrain.setDefaultCommand(new SwerveDriveCommand(drivetrain, driverController));
     configureButtonBindings();   
+
+    autoChooser.setDefaultOption("Shoot and Drive Forward", new ShootAndDriveForward(drivetrain, shooter, indexer));
+    autoChooser.addOption("Drive Forward Only", new DriveForward(drivetrain));
+    autoChooser.addOption("Trench", new TrenchAuto(drivetrain, shooter, indexer, intake));
+    
+    
+
     SmartDashboard.putData("Auto Selector", autoChooser); 
   }
 
@@ -91,6 +101,11 @@ public class RobotContainer {
     .whileHeld(new ClimberCommand(climber, intake, ClimberState.Down));
     driverController.getButton(Controller.Button.Y)
     .whileHeld(new ClimberToTopCommand(climber, intake));
+
+    // driverController.getButton(Controller.Button.LeftBumper)
+    // .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Front));
+    // driverController.getButton(Controller.Button.RightBumper)
+    // .whileHeld(new FaceFieldCommand(drivetrain, FaceFieldState.Back));
     //autoChooser.addOption("Shot Drive Back", new AutoShotDriveBack(drivetrain, shooter, indexer));
 
     // <<<INTERNAL Triggers are actions that happen without a joystick action needed and are always running when enabled.>>>
