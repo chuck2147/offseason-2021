@@ -6,8 +6,8 @@ import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.IndexerSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 
-public class ShootAndDriveForward extends SequentialCommandGroup {
-  public ShootAndDriveForward(SwerveDrivetrain drive, ShooterSubsystem shooter, IndexerSubsystem indexer) {
+public class ShootAndDriveForwardAuto extends SequentialCommandGroup {
+  public ShootAndDriveForwardAuto(SwerveDrivetrain drive, ShooterSubsystem shooter, IndexerSubsystem indexer) {
     addRequirements(shooter);
     
     addCommands(
