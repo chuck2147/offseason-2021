@@ -9,7 +9,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class ShootAndDriveForward extends SequentialCommandGroup {
   public ShootAndDriveForward(SwerveDrivetrain drive, ShooterSubsystem shooter, IndexerSubsystem indexer) {
     addRequirements(shooter);
-
+    
     addCommands(
       //pew pew
       new AutonomousAlignShootCommand(drive, shooter, indexer).withTimeout(10),
