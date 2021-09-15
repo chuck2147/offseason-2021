@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import frc.robot.PIDNTValue;
 import frc.robot.math.Rotation2;
 import frc.robot.math.Vector2;
 
@@ -35,6 +36,9 @@ public class FollowPathCommand extends CommandBase {
   private final PIDController pid_y = new PIDController(translation_kP, translation_kI, translation_kD);
   private final PIDController pid_rotation = new PIDController(rotation_kP, rotation_kI, rotation_kD);
 
+  private final PIDNTValue pidnt_x = new PIDNTValue(translation_kP, translation_kI, translation_kD, pid_x, "Translation x");
+  private final PIDNTValue pidnt_y = new PIDNTValue(translation_kP, translation_kI, translation_kD, pid_y, "Translation y");
+  private final PIDNTValue pidnt_rotation = new PIDNTValue(rotation_kP, rotation_kI, rotation_kD, pid_rotation, "Rotation");
   private static final NetworkTableInstance nt = NetworkTableInstance.getDefault();
   private static final NetworkTable pathFollowingTable = nt.getTable("/pathFollowing");
   private static final NetworkTable targetPoseTable = nt.getTable("/pathFollowing/target");
